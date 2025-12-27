@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -24,8 +25,45 @@ import Link from "next/link"
 import Aurora from "@/components/Aurora"
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import RotatingText from "@/components/RotatingText"
+import { MaintenanceDashboard } from "@/components/demos/maintenance-dashboard"
+import { PortfolioDashboard } from "@/components/demos/portfolio-dashboard"
+import { CrmDashboard } from "@/components/demos/crm-dashboard"
+import { LoanPipeline } from "@/components/demos/loan-pipeline"
+
+const demoTabs = [
+  {
+    id: "property-managers",
+    label: "Property Managers",
+    icon: Building2,
+    color: "blue",
+    description: "Maintenance tracking, tenant portals, and vacancy management",
+  },
+  {
+    id: "asset-managers",
+    label: "Asset Managers",
+    icon: TrendingUp,
+    color: "green",
+    description: "Portfolio analytics, NOI tracking, and investor reporting",
+  },
+  {
+    id: "realtors",
+    label: "Realtors",
+    icon: Users,
+    color: "purple",
+    description: "CRM dashboards, lead pipelines, and automated follow-ups",
+  },
+  {
+    id: "lenders",
+    label: "Lenders",
+    icon: Landmark,
+    color: "orange",
+    description: "Loan pipelines, document tracking, and approval workflows",
+  },
+]
 
 export default function RealEstateAgencyLanding() {
+  const [activeDemo, setActiveDemo] = useState("property-managers")
+
   return (
     <div className="min-h-screen bg-black overflow-hidden">
       <main className="min-h-screen relative overflow-hidden">
@@ -93,10 +131,10 @@ export default function RealEstateAgencyLanding() {
                   className="rounded-full px-8 py-6 text-lg font-medium border-white/30 text-white hover:bg-white/10 transition-all duration-200 hover:scale-105 group bg-transparent cursor-pointer"
                   asChild
                 >
-                  <Link href="/demos">
+                  <a href="#demos">
                     <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                     View Demos
-                  </Link>
+                  </a>
                 </Button>
               </div>
 
@@ -328,10 +366,10 @@ export default function RealEstateAgencyLanding() {
             </div>
           </section>
 
-          {/* Demos Section */}
+          {/* Demos Section - Tabbed Interface */}
           <section id="demos" className="py-20 bg-black/40 backdrop-blur-sm relative overflow-hidden">
             <div className="container mx-auto px-4 lg:px-6 relative">
-              <div className="text-center space-y-4 mb-16">
+              <div className="text-center space-y-4 mb-12">
                 <Badge className="bg-purple-500/20 text-purple-300 border border-purple-500/30">
                   <Play className="w-3 h-3 mr-1" />
                   Live Demos
@@ -344,91 +382,61 @@ export default function RealEstateAgencyLanding() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <Link href="/demos/property-managers">
-                  <Card className="group h-full hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10 shadow-lg bg-white/5 backdrop-blur-md cursor-pointer overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <CardContent className="p-6 relative">
-                      <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-500/30 group-hover:scale-110 transition-all shadow-lg">
-                        <Building2 className="h-7 w-7 text-blue-400" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">Property Managers</h3>
-                      <p className="text-white/70 text-sm mb-4">
-                        Maintenance tracking, tenant portals, and vacancy management.
-                      </p>
-                      <div className="flex items-center text-blue-400 text-sm font-semibold group-hover:text-blue-300">
-                        View Demo
-                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-2 transition-transform" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link href="/demos/asset-managers">
-                  <Card className="group h-full hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10 shadow-lg bg-white/5 backdrop-blur-md cursor-pointer overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <CardContent className="p-6 relative">
-                      <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-green-500/30 group-hover:scale-110 transition-all shadow-lg">
-                        <TrendingUp className="h-7 w-7 text-green-400" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">Asset Managers</h3>
-                      <p className="text-white/70 text-sm mb-4">
-                        Portfolio analytics, NOI tracking, and investor reporting.
-                      </p>
-                      <div className="flex items-center text-green-400 text-sm font-semibold group-hover:text-green-300">
-                        View Demo
-                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-2 transition-transform" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link href="/demos/realtors">
-                  <Card className="group h-full hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10 shadow-lg bg-white/5 backdrop-blur-md cursor-pointer overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <CardContent className="p-6 relative">
-                      <div className="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-purple-500/30 group-hover:scale-110 transition-all shadow-lg">
-                        <Users className="h-7 w-7 text-purple-400" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">Realtors & Brokerages</h3>
-                      <p className="text-white/70 text-sm mb-4">
-                        CRM dashboards, lead pipelines, and automated follow-ups.
-                      </p>
-                      <div className="flex items-center text-purple-400 text-sm font-semibold group-hover:text-purple-300">
-                        View Demo
-                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-2 transition-transform" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link href="/demos/lenders">
-                  <Card className="group h-full hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-white/10 shadow-lg bg-white/5 backdrop-blur-md cursor-pointer overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <CardContent className="p-6 relative">
-                      <div className="w-14 h-14 bg-orange-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-500/30 group-hover:scale-110 transition-all shadow-lg">
-                        <Landmark className="h-7 w-7 text-orange-400" />
-                      </div>
-                      <h3 className="text-lg font-bold text-white mb-2">Lenders</h3>
-                      <p className="text-white/70 text-sm mb-4">
-                        Loan pipelines, document tracking, and approval workflows.
-                      </p>
-                      <div className="flex items-center text-orange-400 text-sm font-semibold group-hover:text-orange-300">
-                        View Demo
-                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-2 transition-transform" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+              {/* Tab Navigation */}
+              <div className="flex flex-wrap justify-center gap-3 mb-8">
+                {demoTabs.map((tab) => {
+                  const Icon = tab.icon
+                  const isActive = activeDemo === tab.id
+                  const colorClasses = {
+                    blue: isActive ? "bg-blue-500/30 border-blue-500/50 text-blue-300" : "bg-white/5 border-white/10 text-white/70 hover:bg-blue-500/10 hover:border-blue-500/30",
+                    green: isActive ? "bg-green-500/30 border-green-500/50 text-green-300" : "bg-white/5 border-white/10 text-white/70 hover:bg-green-500/10 hover:border-green-500/30",
+                    purple: isActive ? "bg-purple-500/30 border-purple-500/50 text-purple-300" : "bg-white/5 border-white/10 text-white/70 hover:bg-purple-500/10 hover:border-purple-500/30",
+                    orange: isActive ? "bg-orange-500/30 border-orange-500/50 text-orange-300" : "bg-white/5 border-white/10 text-white/70 hover:bg-orange-500/10 hover:border-orange-500/30",
+                  }
+                  const iconColorClasses = {
+                    blue: isActive ? "text-blue-400" : "text-white/50",
+                    green: isActive ? "text-green-400" : "text-white/50",
+                    purple: isActive ? "text-purple-400" : "text-white/50",
+                    orange: isActive ? "text-orange-400" : "text-white/50",
+                  }
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveDemo(tab.id)}
+                      className={`flex items-center gap-2 px-5 py-3 rounded-full border backdrop-blur-sm transition-all duration-300 cursor-pointer ${colorClasses[tab.color as keyof typeof colorClasses]}`}
+                    >
+                      <Icon className={`h-5 w-5 ${iconColorClasses[tab.color as keyof typeof iconColorClasses]}`} />
+                      <span className="font-medium">{tab.label}</span>
+                    </button>
+                  )
+                })}
               </div>
 
-              <div className="text-center mt-12">
+              {/* Active Demo Description */}
+              <div className="text-center mb-8">
+                <p className="text-white/60 text-sm">
+                  {demoTabs.find(t => t.id === activeDemo)?.description}
+                </p>
+              </div>
+
+              {/* Demo Dashboard Container */}
+              <div className="bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-2xl">
+                <div className="min-h-[600px]">
+                  {activeDemo === "property-managers" && <MaintenanceDashboard />}
+                  {activeDemo === "asset-managers" && <PortfolioDashboard />}
+                  {activeDemo === "realtors" && <CrmDashboard />}
+                  {activeDemo === "lenders" && <LoanPipeline />}
+                </div>
+              </div>
+
+              {/* CTA Below Demo */}
+              <div className="text-center mt-10">
+                <p className="text-white/60 mb-4">Want a custom dashboard for your business?</p>
                 <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg shadow-purple-900/30 border-0 rounded-full px-8" asChild>
-                  <Link href="/demos">
-                    <Play className="mr-2 h-5 w-5" />
-                    Explore All Demos
+                  <a href="https://calendly.com/joe-omnia/30min" target="_blank" rel="noopener noreferrer">
+                    Schedule a Demo Call
                     <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
+                  </a>
                 </Button>
               </div>
             </div>
@@ -635,7 +643,7 @@ export default function RealEstateAgencyLanding() {
                   <h3 className="font-semibold mb-4">Company</h3>
                   <ul className="space-y-2 text-white/60">
                     <li><Link href="#" className="hover:text-white transition-colors">About Us</Link></li>
-                    <li><Link href="/demos" className="hover:text-white transition-colors">Demos</Link></li>
+                    <li><a href="#demos" className="hover:text-white transition-colors">Demos</a></li>
                     <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
                     <li><Link href="#" className="hover:text-white transition-colors">Contact</Link></li>
                   </ul>
