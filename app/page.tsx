@@ -10,6 +10,7 @@ import {
   Clock,
   DollarSign,
   Globe,
+  Landmark,
   Mail,
   Phone,
   TrendingUp,
@@ -34,11 +35,11 @@ export default function RealEstateAgencyLanding() {
             <Link href="#services" className="text-slate-700 hover:text-blue-900 transition-colors">
               Services
             </Link>
+            <Link href="/demos" className="text-slate-700 hover:text-blue-900 transition-colors">
+              Demos
+            </Link>
             <Link href="#benefits" className="text-slate-700 hover:text-blue-900 transition-colors">
               Benefits
-            </Link>
-            <Link href="#about" className="text-slate-700 hover:text-blue-900 transition-colors">
-              About
             </Link>
           </nav>
           <Button className="bg-blue-900 hover:bg-blue-800 text-white" asChild>
@@ -336,6 +337,102 @@ export default function RealEstateAgencyLanding() {
                 </ul>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Demos Section */}
+      <section id="demos" className="py-20 bg-gradient-to-br from-slate-800 to-slate-900">
+        <div className="container mx-auto px-4 lg:px-6">
+          <div className="text-center space-y-4 mb-16">
+            <Badge className="bg-slate-100 text-slate-800">See Our Work</Badge>
+            <h2 className="text-3xl lg:text-5xl font-bold text-white">Solutions for Every Role</h2>
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+              Explore interactive demos of the dashboards and tools we build for real estate professionals.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Link href="/demos/property-managers">
+              <Card className="group h-full hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-slate-700/50 backdrop-blur-sm hover:bg-slate-700 cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-blue-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-900 transition-colors">
+                    <Building2 className="h-6 w-6 text-blue-400 group-hover:text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Property Managers</h3>
+                  <p className="text-slate-300 text-sm mb-4">
+                    Maintenance tracking, tenant portals, and vacancy management.
+                  </p>
+                  <div className="flex items-center text-blue-400 text-sm font-medium group-hover:text-blue-300">
+                    View Demo
+                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/demos/asset-managers">
+              <Card className="group h-full hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-slate-700/50 backdrop-blur-sm hover:bg-slate-700 cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-green-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-900 transition-colors">
+                    <TrendingUp className="h-6 w-6 text-green-400 group-hover:text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Asset Managers</h3>
+                  <p className="text-slate-300 text-sm mb-4">
+                    Portfolio analytics, NOI tracking, and investor reporting.
+                  </p>
+                  <div className="flex items-center text-green-400 text-sm font-medium group-hover:text-green-300">
+                    View Demo
+                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/demos/realtors">
+              <Card className="group h-full hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-slate-700/50 backdrop-blur-sm hover:bg-slate-700 cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-purple-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-900 transition-colors">
+                    <Users className="h-6 w-6 text-purple-400 group-hover:text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Realtors & Brokerages</h3>
+                  <p className="text-slate-300 text-sm mb-4">
+                    CRM dashboards, lead pipelines, and automated follow-ups.
+                  </p>
+                  <div className="flex items-center text-purple-400 text-sm font-medium group-hover:text-purple-300">
+                    View Demo
+                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/demos/lenders">
+              <Card className="group h-full hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-slate-700/50 backdrop-blur-sm hover:bg-slate-700 cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-orange-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:bg-orange-900 transition-colors">
+                    <Landmark className="h-6 w-6 text-orange-400 group-hover:text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Lenders</h3>
+                  <p className="text-slate-300 text-sm mb-4">
+                    Loan pipelines, document tracking, and approval workflows.
+                  </p>
+                  <div className="flex items-center text-orange-400 text-sm font-medium group-hover:text-orange-300">
+                    View Demo
+                    <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button size="lg" variant="outline" className="border-slate-600 text-white hover:bg-slate-700" asChild>
+              <Link href="/demos">
+                View All Demos
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
