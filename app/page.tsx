@@ -29,6 +29,7 @@ import { MaintenanceDashboard } from "@/components/demos/maintenance-dashboard"
 import { PortfolioDashboard } from "@/components/demos/portfolio-dashboard"
 import { CrmDashboard } from "@/components/demos/crm-dashboard"
 import { LoanPipeline } from "@/components/demos/loan-pipeline"
+import { DemoPreview } from "@/components/demos/demo-preview"
 
 const demoTabs = [
   {
@@ -383,7 +384,7 @@ export default function RealEstateAgencyLanding() {
               </div>
 
               {/* Tab Navigation */}
-              <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8">
                 {demoTabs.map((tab) => {
                   const Icon = tab.icon
                   const isActive = activeDemo === tab.id
@@ -403,10 +404,10 @@ export default function RealEstateAgencyLanding() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveDemo(tab.id)}
-                      className={`flex items-center gap-2 px-5 py-3 rounded-full border backdrop-blur-sm transition-all duration-300 cursor-pointer ${colorClasses[tab.color as keyof typeof colorClasses]}`}
+                      className={`flex items-center gap-1.5 md:gap-2 px-3 py-2 md:px-5 md:py-3 rounded-full border backdrop-blur-sm transition-all duration-300 cursor-pointer ${colorClasses[tab.color as keyof typeof colorClasses]}`}
                     >
-                      <Icon className={`h-5 w-5 ${iconColorClasses[tab.color as keyof typeof iconColorClasses]}`} />
-                      <span className="font-medium">{tab.label}</span>
+                      <Icon className={`h-4 w-4 md:h-5 md:w-5 ${iconColorClasses[tab.color as keyof typeof iconColorClasses]}`} />
+                      <span className="font-medium text-sm md:text-base">{tab.label}</span>
                     </button>
                   )
                 })}
@@ -420,8 +421,14 @@ export default function RealEstateAgencyLanding() {
               </div>
 
               {/* Demo Dashboard Container */}
-              <div className="bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-2xl">
-                <div className="min-h-[600px]">
+              <div className="bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 p-4 md:p-6 shadow-2xl">
+                {/* Mobile Preview - shown on small screens */}
+                <div className="block md:hidden">
+                  <DemoPreview demoId={activeDemo} />
+                </div>
+
+                {/* Full Dashboard - shown on medium+ screens */}
+                <div className="hidden md:block min-h-[600px]">
                   {activeDemo === "property-managers" && <MaintenanceDashboard />}
                   {activeDemo === "asset-managers" && <PortfolioDashboard />}
                   {activeDemo === "realtors" && <CrmDashboard />}
