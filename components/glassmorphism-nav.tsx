@@ -170,14 +170,11 @@ export function GlassmorphismNav() {
           </div>
         </div>
 
-        <div className="md:hidden relative">
-
-          {/* Menu container */}
-          <div
-            className={`mt-2 w-[90vw] max-w-xs mx-auto transition-all duration-500 ease-out transform-gpu ${
-              isOpen ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-8 scale-95 pointer-events-none"
-            }`}
-          >
+        {/* Mobile menu - only render when open to avoid blocking touches */}
+        {isOpen && (
+          <div className="md:hidden relative">
+            {/* Menu container */}
+            <div className="mt-2 w-[90vw] max-w-xs mx-auto transition-all duration-500 ease-out transform-gpu opacity-100 translate-y-0 scale-100">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-2xl">
               <div className="flex flex-col space-y-1">
                 {navigation.map((item, index) =>
@@ -228,8 +225,9 @@ export function GlassmorphismNav() {
                 </a>
               </div>
             </div>
+            </div>
           </div>
-        </div>
+        )}
       </nav>
     </>
   )
