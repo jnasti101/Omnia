@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   description:
     "Transform your real estate brokerage with intelligent infrastructure solutions. Streamline processes, boost productivity, and scale your business with confidence.",
   icons: {
-    icon: "/images/omnia-logo.png",
-    shortcut: "/images/omnia-logo.png",
-    apple: "/images/omnia-logo.png",
+    icon: "/images/omnia-ikon.png",
+    shortcut: "/images/omnia-ikon.png",
+    apple: "/images/omnia-ikon.png",
   },
     generator: 'v0.app'
 }

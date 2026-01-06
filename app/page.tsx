@@ -22,7 +22,6 @@ import {
   Play,
 } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import Aurora from "@/components/Aurora"
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import RotatingText from "@/components/RotatingText"
@@ -81,20 +80,8 @@ export default function RealEstateAgencyLanding() {
           {/* Hero Section */}
           <section className="min-h-screen flex items-center justify-center px-4 py-20 relative">
             <div className="max-w-4xl mx-auto text-center relative z-10 animate-fade-in-hero">
-              {/* Full Logo */}
-              <div className="mb-8 mt-12 animate-fade-in-badge">
-                <Image
-                  src="/images/omnia-logo.png"
-                  alt="Omnia Solutions"
-                  width={280}
-                  height={80}
-                  className="mx-auto h-auto w-48 sm:w-56 md:w-72"
-                  priority
-                />
-              </div>
-
               {/* Badge */}
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-8 animate-fade-in-badge">
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-8 mt-12 animate-fade-in-badge">
                 <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
                 Modern Intelligence for Real Estate
               </div>
