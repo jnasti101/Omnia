@@ -120,7 +120,7 @@ export default function RealEstateAgencyLanding() {
                   className="bg-white text-black rounded-full px-8 py-6 text-lg font-medium transition-all duration-300 hover:bg-gray-50 hover:scale-105 hover:shadow-lg group cursor-pointer"
                   asChild
                 >
-                  <a href="https://calendly.com/joe-omnia/30min" target="_blank" rel="noopener noreferrer">
+                  <a href="https://cal.com/joseph-nasti-mflbnr/30min" target="_blank" rel="noopener noreferrer">
                     Schedule Discovery Call
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </a>
@@ -440,7 +440,7 @@ export default function RealEstateAgencyLanding() {
               <div className="text-center mt-10">
                 <p className="text-white/60 mb-4">Want a custom dashboard for your business?</p>
                 <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg shadow-purple-900/30 border-0 rounded-full px-8" asChild>
-                  <a href="https://calendly.com/joe-omnia/30min" target="_blank" rel="noopener noreferrer">
+                  <a href="https://cal.com/joseph-nasti-mflbnr/30min" target="_blank" rel="noopener noreferrer">
                     Schedule a Demo Call
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </a>
@@ -601,7 +601,7 @@ export default function RealEstateAgencyLanding() {
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-blue-500"
                     />
                     <Button size="lg" className="w-full bg-white text-black hover:bg-gray-100 rounded-full" asChild>
-                      <a href="https://calendly.com/joe-omnia/30min" target="_blank" rel="noopener noreferrer">
+                      <a href="https://cal.com/joseph-nasti-mflbnr/30min" target="_blank" rel="noopener noreferrer">
                         Schedule Free Consultation
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </a>
