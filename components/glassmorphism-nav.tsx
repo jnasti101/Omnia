@@ -101,7 +101,7 @@ export function GlassmorphismNav() {
               >
                 <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
                   <Image
-                    src="/images/omnia-logo.png"
+                    src="/images/omnia-ikon.png"
                     alt="Omnia Solutions"
                     width={48}
                     height={48}
