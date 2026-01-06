@@ -75,6 +75,13 @@ export function GlassmorphismNav() {
 
   return (
     <>
+      {/* Mobile backdrop - outside nav to avoid z-index issues */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
       <nav
         className={`fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
           isVisible ? "translate-y-0 opacity-100" : "-translate-y-20 md:-translate-y-24 opacity-0"
@@ -164,14 +171,6 @@ export function GlassmorphismNav() {
         </div>
 
         <div className="md:hidden relative">
-          {/* Backdrop overlay */}
-          <div
-            className={`fixed inset-0 bg-black/20 backdrop-blur-sm transition-all duration-300 ${
-              isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            onClick={() => setIsOpen(false)}
-            style={{ top: "0", left: "0", right: "0", bottom: "0", zIndex: -1 }}
-          />
 
           {/* Menu container */}
           <div
