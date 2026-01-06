@@ -69,7 +69,7 @@ export default function RealEstateAgencyLanding() {
     <div className="min-h-screen bg-black overflow-hidden">
       <main className="min-h-screen relative overflow-hidden">
         {/* Aurora Background - Fixed */}
-        <div className="fixed inset-0 w-full h-full">
+        <div className="fixed inset-0 w-full h-full pointer-events-none">
           <Aurora colorStops={["#1e3a5f", "#3b82f6", "#1e3a5f"]} amplitude={1.2} blend={0.6} speed={0.8} />
         </div>
 
