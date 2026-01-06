@@ -1,6 +1,6 @@
 "use client"
 
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react"
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState, useRef, useLayoutEffect } from "react"
 import { motion, AnimatePresence } from "motion/react"
 
 import "./RotatingText.css"
@@ -32,6 +32,24 @@ const RotatingText = forwardRef((props, ref) => {
   } = props
 
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
+  const [maxWidth, setMaxWidth] = useState<number | null>(null)
+  const measureRef = useRef<HTMLSpanElement>(null)
+
+  // Measure all texts to find the widest one
+  useLayoutEffect(() => {
+    if (!measureRef.current) return
+
+    const measureElement = measureRef.current
+    let widest = 0
+
+    texts.forEach((text) => {
+      measureElement.textContent = text
+      const width = measureElement.offsetWidth
+      if (width > widest) widest = width
+    })
+
+    setMaxWidth(widest)
+  }, [texts])
 
   const splitIntoCharacters = (text) => {
     if (typeof Intl !== "undefined" && Intl.Segmenter) {
@@ -143,44 +161,64 @@ const RotatingText = forwardRef((props, ref) => {
   }, [next, rotationInterval, auto])
 
   return (
-    <motion.span className={cn("text-rotate", mainClassName)} {...rest} layout transition={transition}>
-      <span className="text-rotate-sr-only">{texts[currentTextIndex]}</span>
-      <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
-        <motion.span
-          key={currentTextIndex}
-          className={cn(splitBy === "lines" ? "text-rotate-lines" : "text-rotate")}
-          layout
-          aria-hidden="true"
-        >
-          {elements.map((wordObj, wordIndex, array) => {
-            const previousCharsCount = array.slice(0, wordIndex).reduce((sum, word) => sum + word.characters.length, 0)
-            return (
-              <span key={wordIndex} className={cn("text-rotate-word", splitLevelClassName)}>
-                {wordObj.characters.map((char, charIndex) => (
-                  <motion.span
-                    key={charIndex}
-                    initial={initial}
-                    animate={animate}
-                    exit={exit}
-                    transition={{
-                      ...transition,
-                      delay: getStaggerDelay(
-                        previousCharsCount + charIndex,
-                        array.reduce((sum, word) => sum + word.characters.length, 0),
-                      ),
-                    }}
-                    className={cn("text-rotate-element", elementLevelClassName)}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-                {wordObj.needsSpace && <span className="text-rotate-space"> </span>}
-              </span>
-            )
-          })}
-        </motion.span>
-      </AnimatePresence>
-    </motion.span>
+    <>
+      {/* Hidden element to measure text widths */}
+      <span
+        ref={measureRef}
+        className={cn("text-rotate", mainClassName)}
+        style={{
+          position: "absolute",
+          visibility: "hidden",
+          whiteSpace: "nowrap",
+          pointerEvents: "none",
+        }}
+        aria-hidden="true"
+      />
+      <motion.span
+        className={cn("text-rotate", mainClassName)}
+        style={{ minWidth: maxWidth ? `${maxWidth}px` : undefined }}
+        {...rest}
+        layout
+        transition={transition}
+      >
+        <span className="text-rotate-sr-only">{texts[currentTextIndex]}</span>
+        <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
+          <motion.span
+            key={currentTextIndex}
+            className={cn(splitBy === "lines" ? "text-rotate-lines" : "text-rotate")}
+            layout
+            aria-hidden="true"
+          >
+            {elements.map((wordObj, wordIndex, array) => {
+              const previousCharsCount = array.slice(0, wordIndex).reduce((sum, word) => sum + word.characters.length, 0)
+              return (
+                <span key={wordIndex} className={cn("text-rotate-word", splitLevelClassName)}>
+                  {wordObj.characters.map((char, charIndex) => (
+                    <motion.span
+                      key={charIndex}
+                      initial={initial}
+                      animate={animate}
+                      exit={exit}
+                      transition={{
+                        ...transition,
+                        delay: getStaggerDelay(
+                          previousCharsCount + charIndex,
+                          array.reduce((sum, word) => sum + word.characters.length, 0),
+                        ),
+                      }}
+                      className={cn("text-rotate-element", elementLevelClassName)}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                  {wordObj.needsSpace && <span className="text-rotate-space"> </span>}
+                </span>
+              )
+            })}
+          </motion.span>
+        </AnimatePresence>
+      </motion.span>
+    </>
   )
 })
 
