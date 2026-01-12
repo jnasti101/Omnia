@@ -283,11 +283,11 @@ export default function BrownstonePage() {
                   </Card>
 
                   {/* Immediate Value */}
-                  <Card className="bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 backdrop-blur-md border border-emerald-500/30">
+                  <Card className="bg-gradient-to-br from-emerald-600/40 to-emerald-700/30 backdrop-blur-md border border-emerald-400/50">
                     <CardContent className="p-6 md:p-8">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 bg-emerald-500/30 rounded-xl flex items-center justify-center">
-                          <Rocket className="h-5 w-5 text-emerald-400" />
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-12 h-12 bg-emerald-500/40 rounded-xl flex items-center justify-center">
+                          <Rocket className="h-6 w-6 text-emerald-300" />
                         </div>
                         <h2 className="text-xl md:text-2xl font-bold text-white">How This Adds Value Immediately</h2>
                       </div>
@@ -299,15 +299,15 @@ export default function BrownstonePage() {
                           "Creates accountability",
                           "Scales as the portfolio grows",
                         ].map((item, i) => (
-                          <div key={i} className="flex items-center gap-2 text-emerald-300 text-sm">
-                            <CheckCircle className="h-4 w-4 text-emerald-400 flex-shrink-0" />
-                            {item}
+                          <div key={i} className="flex items-center gap-3 p-3 bg-white/10 rounded-lg border border-emerald-400/30">
+                            <CheckCircle className="h-5 w-5 text-emerald-300 flex-shrink-0" />
+                            <span className="text-white font-medium">{item}</span>
                           </div>
                         ))}
                       </div>
-                      <div className="mt-6 p-4 bg-white/5 rounded-xl border border-emerald-500/20">
-                        <p className="text-white/80 text-sm">
-                          <span className="font-semibold text-emerald-400">Outcome:</span> Within weeks, BrownStone gains a single source of truth for compliance and a foundation for broader automation in future phases.
+                      <div className="mt-6 p-5 bg-black/30 rounded-xl border border-emerald-400/40">
+                        <p className="text-white text-base">
+                          <span className="font-bold text-emerald-300">Outcome:</span> Within weeks, BrownStone gains a single source of truth for compliance and a foundation for broader automation in future phases.
                         </p>
                       </div>
                     </CardContent>
