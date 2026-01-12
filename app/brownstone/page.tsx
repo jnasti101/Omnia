@@ -448,11 +448,11 @@ export default function BrownstonePage() {
                       <h2 className="text-xl md:text-2xl font-bold text-white mb-6">Next Steps</h2>
                       <div className="grid sm:grid-cols-3 gap-4">
                         {[
-                          { num: "1", text: "Align on equity framework" },
-                          { num: "2", text: "Finalize MVP scope" },
-                          { num: "3", text: "Draft formal partnership agreement" },
+                          { num: "1", text: "Finalize MVP scope & requirements" },
+                          { num: "2", text: "Provide data access (Jaffa, AppFolio, existing spreadsheets)" },
+                          { num: "3", text: "Align on partnership terms" },
                         ].map((item) => (
-                          <div key={item.num} className="flex items-center gap-3 p-3 bg-white/10 rounded-lg border border-emerald-400/30">
+                          <div key={item.num} className="flex items-start gap-3 p-4 bg-white/10 rounded-lg border border-emerald-400/30">
                             <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                               {item.num}
                             </div>
