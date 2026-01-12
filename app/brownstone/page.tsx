@@ -544,28 +544,6 @@ export default function BrownstonePage() {
             </div>
           </section>
 
-          {/* CTA Section */}
-          <section className="py-16 px-4 bg-black/40 backdrop-blur-sm">
-            <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                Ready to Discuss?
-              </h2>
-              <p className="text-white/60 mb-8">
-                Schedule a call to align on the partnership framework and next steps.
-              </p>
-              <Button
-                size="lg"
-                className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-8 py-6 text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg group cursor-pointer"
-                asChild
-              >
-                <a href="https://cal.com/joseph-nasti-mflbnr/30min" target="_blank" rel="noopener noreferrer">
-                  Schedule Discussion
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
-            </div>
-          </section>
-
           {/* Footer */}
           <footer className="bg-black/80 text-white py-12 border-t border-white/10">
             <div className="container mx-auto px-4 lg:px-6">
