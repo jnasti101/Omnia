@@ -391,36 +391,12 @@ export default function BrownstonePage() {
                         <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs">To Be Negotiated</Badge>
                       </div>
                       <p className="text-white/70 mb-4">Equity split to be negotiated based on:</p>
-                      <div className="grid sm:grid-cols-3 gap-4 mb-6">
+                      <div className="grid sm:grid-cols-3 gap-4">
                         {["Development contribution", "Domain expertise", "Ongoing involvement"].map((item, i) => (
                           <div key={i} className="p-3 bg-white/5 rounded-lg border border-white/10 text-center">
                             <span className="text-white/80 text-sm">{item}</span>
                           </div>
                         ))}
-                      </div>
-                      <div className="p-4 bg-purple-500/10 rounded-xl border border-purple-500/20">
-                        <p className="text-white/60 text-sm mb-2">Example structure (illustrative):</p>
-                        <div className="flex items-center gap-4">
-                          <div className="flex-1">
-                            <div className="flex justify-between text-sm mb-1">
-                              <span className="text-blue-300">Omnia Solutions</span>
-                              <span className="text-blue-400">60–70%</span>
-                            </div>
-                            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                              <div className="h-full bg-blue-500 rounded-full" style={{ width: "65%" }} />
-                            </div>
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between text-sm mb-1">
-                              <span className="text-emerald-300">BrownStone</span>
-                              <span className="text-emerald-400">30–40%</span>
-                            </div>
-                            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                              <div className="h-full bg-emerald-500 rounded-full" style={{ width: "35%" }} />
-                            </div>
-                          </div>
-                        </div>
-                        <p className="text-white/50 text-xs mt-3 italic">Final terms to be documented in operating agreement.</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -466,52 +442,21 @@ export default function BrownstonePage() {
                     </CardContent>
                   </Card>
 
-                  {/* Governance & Exit */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <Card className="bg-white/5 backdrop-blur-md border border-white/10">
-                      <CardContent className="p-6">
-                        <h3 className="text-lg font-semibold text-white mb-4">Governance</h3>
-                        <ul className="space-y-2">
-                          {["Joint roadmap planning", "Feature prioritization input", "Clear IP ownership structure"].map((item, i) => (
-                            <li key={i} className="flex items-center gap-2 text-white/70 text-sm">
-                              <CheckCircle className="h-4 w-4 text-emerald-400 flex-shrink-0" />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="bg-white/5 backdrop-blur-md border border-white/10">
-                      <CardContent className="p-6">
-                        <h3 className="text-lg font-semibold text-white mb-4">Exit & Optionality</h3>
-                        <ul className="space-y-2">
-                          {["Buyout options", "Spin-off entity", "Preferred pricing or perpetual license for BrownStone"].map((item, i) => (
-                            <li key={i} className="flex items-center gap-2 text-white/70 text-sm">
-                              <CheckCircle className="h-4 w-4 text-emerald-400 flex-shrink-0" />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </CardContent>
-                    </Card>
-                  </div>
-
                   {/* Next Steps */}
-                  <Card className="bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 backdrop-blur-md border border-emerald-500/30">
+                  <Card className="bg-gradient-to-br from-emerald-950/80 to-emerald-900/70 backdrop-blur-md border border-emerald-500/40">
                     <CardContent className="p-6 md:p-8">
-                      <h2 className="text-xl md:text-2xl font-bold text-white mb-4">Next Steps</h2>
+                      <h2 className="text-xl md:text-2xl font-bold text-white mb-6">Next Steps</h2>
                       <div className="grid sm:grid-cols-3 gap-4">
                         {[
                           { num: "1", text: "Align on equity framework" },
                           { num: "2", text: "Finalize MVP scope" },
                           { num: "3", text: "Draft formal partnership agreement" },
                         ].map((item) => (
-                          <div key={item.num} className="flex items-center gap-3">
+                          <div key={item.num} className="flex items-center gap-3 p-3 bg-white/10 rounded-lg border border-emerald-400/30">
                             <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                               {item.num}
                             </div>
-                            <span className="text-white/80 text-sm">{item.text}</span>
+                            <span className="text-white font-medium">{item.text}</span>
                           </div>
                         ))}
                       </div>
