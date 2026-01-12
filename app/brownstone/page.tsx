@@ -283,7 +283,7 @@ export default function BrownstonePage() {
                   </Card>
 
                   {/* Immediate Value */}
-                  <Card className="bg-gradient-to-br from-emerald-600/40 to-emerald-700/30 backdrop-blur-md border border-emerald-400/50">
+                  <Card className="bg-gradient-to-br from-emerald-950/80 to-emerald-900/70 backdrop-blur-md border border-emerald-500/40">
                     <CardContent className="p-6 md:p-8">
                       <div className="flex items-center gap-3 mb-6">
                         <div className="w-12 h-12 bg-emerald-500/40 rounded-xl flex items-center justify-center">
