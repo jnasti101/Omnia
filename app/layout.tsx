@@ -6,9 +6,9 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Omnia Solutions - Real Estate Brokerage Optimization",
+  title: "Omnia Solutions — Custom Software For Real Estate Teams",
   description:
-    "Transform your real estate brokerage with intelligent infrastructure solutions. Streamline processes, boost productivity, and scale your business with confidence.",
+    "We design and build custom dashboards, internal tools, and operational software for real estate teams — purpose-built for how your firm actually works.",
   icons: {
     icon: "/images/omnia-ikon.png",
     shortcut: "/images/omnia-ikon.png",

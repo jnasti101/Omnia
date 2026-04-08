@@ -48,10 +48,10 @@ const demoTabs = [
   },
   {
     id: "realtors",
-    label: "Realtors",
+    label: "Brokerages",
     icon: Users,
     color: "purple",
-    description: "CRM dashboards, lead pipelines, and automated follow-ups",
+    description: "Deal pipelines, CRM dashboards, and automated follow-ups",
   },
   {
     id: "lenders",
@@ -83,17 +83,17 @@ export default function RealEstateAgencyLanding() {
               {/* Badge */}
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-8 mt-12 animate-fade-in-badge">
                 <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
-                Modern Intelligence for Real Estate
+                Custom Software for Real Estate
               </div>
 
               {/* Main Heading */}
               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-balance mb-6 animate-fade-in-heading">
-                <span className="text-white">Transform Your</span>
+                <span className="text-white">Software Built</span>
                 <br />
                 <span className="inline-flex items-center justify-center flex-wrap gap-2 mt-4 sm:mt-6 md:mt-8">
-                  <span className="text-white">Brokerage</span>
+                  <span className="text-white">For Your</span>
                   <RotatingText
-                    texts={["Operations", "Efficiency", "Growth", "Performance", "Success"]}
+                    texts={["Pipeline", "Portfolio", "Operations", "Reporting", "Team"]}
                     mainClassName="px-2 sm:px-2 md:px-3 bg-white text-black overflow-hidden py-1 sm:py-1 md:py-2 justify-center rounded-lg shadow-lg"
                     staggerFrom={"last"}
                     initial={{ y: "100%" }}
@@ -109,8 +109,8 @@ export default function RealEstateAgencyLanding() {
 
               {/* Subheading */}
               <p className="text-base sm:text-xl md:text-2xl text-white/80 text-balance max-w-sm sm:max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed px-4 sm:px-0 animate-fade-in-subheading font-light">
-                We help real estate brokerages optimize their operations using cutting-edge intelligent
-                infrastructure. Streamline processes, boost productivity, and scale your business.
+                We design and build custom dashboards, internal tools, and operational software for
+                real estate teams — purpose-built for how your firm actually works.
               </p>
 
               {/* CTA Buttons */}
@@ -143,15 +143,15 @@ export default function RealEstateAgencyLanding() {
               <div className="flex flex-wrap items-center justify-center gap-4 pt-4 animate-fade-in-trust">
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
                   <Shield className="h-5 w-5 text-green-400" />
-                  <span className="text-sm text-white/80">Enterprise-Grade Security</span>
+                  <span className="text-sm text-white/80">You Own The Code</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
                   <Award className="h-5 w-5 text-blue-400" />
-                  <span className="text-sm text-white/80">Industry Specialists</span>
+                  <span className="text-sm text-white/80">Real Estate Specialists</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
                   <Sparkles className="h-5 w-5 text-purple-400" />
-                  <span className="text-sm text-white/80">AI-Powered</span>
+                  <span className="text-sm text-white/80">Shipped In Weeks</span>
                 </div>
               </div>
             </div>
@@ -161,24 +161,24 @@ export default function RealEstateAgencyLanding() {
           <section className="py-16 bg-black/40 backdrop-blur-sm border-y border-white/10">
             <div className="container mx-auto px-4 lg:px-6">
               <div className="text-center mb-10">
-                <p className="text-white/60 text-sm font-medium uppercase tracking-wider">Why Leading Real Estate Companies Choose Us</p>
+                <p className="text-white/60 text-sm font-medium uppercase tracking-wider">How We Work</p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="text-center group">
-                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">40%</div>
-                  <div className="text-white/60 text-sm">Average Efficiency Gain</div>
+                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">Weeks</div>
+                  <div className="text-white/60 text-sm">From Spec To Live</div>
                 </div>
                 <div className="text-center group">
-                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">25%</div>
-                  <div className="text-white/60 text-sm">Cost Reduction</div>
+                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">100%</div>
+                  <div className="text-white/60 text-sm">Custom Built</div>
                 </div>
                 <div className="text-center group">
-                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">60%</div>
-                  <div className="text-white/60 text-sm">Faster Processing</div>
+                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Yours</div>
+                  <div className="text-white/60 text-sm">You Own The Code</div>
                 </div>
                 <div className="text-center group">
-                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">24/7</div>
-                  <div className="text-white/60 text-sm">Expert Support</div>
+                  <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">1:1</div>
+                  <div className="text-white/60 text-sm">Direct Collaboration</div>
                 </div>
               </div>
             </div>
@@ -188,13 +188,13 @@ export default function RealEstateAgencyLanding() {
           <section id="services" className="py-20 bg-black/60 backdrop-blur-sm">
             <div className="container mx-auto px-4 lg:px-6">
               <div className="text-center space-y-4 mb-16">
-                <Badge className="bg-blue-500/20 text-blue-300 border border-blue-500/30">Our Services</Badge>
+                <Badge className="bg-blue-500/20 text-blue-300 border border-blue-500/30">What We Build</Badge>
                 <h2 className="text-3xl lg:text-5xl font-bold text-white">
-                  Intelligent Infrastructure <span className="text-blue-400">Solutions</span>
+                  Custom Software, <span className="text-blue-400">Built For You</span>
                 </h2>
                 <p className="text-xl text-white/70 max-w-3xl mx-auto">
-                  We provide comprehensive optimization services tailored specifically for real estate brokerages,
-                  leveraging the latest in AI and automation technology.
+                  Off-the-shelf tools force you to change how you work. We build software that fits the way
+                  your team actually runs deals, manages assets, and reports to stakeholders.
                 </p>
               </div>
 
@@ -205,23 +205,23 @@ export default function RealEstateAgencyLanding() {
                     <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500/30 group-hover:scale-110 transition-all">
                       <BarChart3 className="h-7 w-7 text-blue-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3">Process Automation</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">Portfolio & Asset Dashboards</h3>
                     <p className="text-white/70 mb-4">
-                      Automate repetitive tasks, document processing, and workflow management to free up your team for
-                      high-value activities.
+                      Custom analytics dashboards that track NOI, IRR, occupancy, and cash flow across every
+                      property in your portfolio.
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                        Lead management automation
+                        Real-time portfolio metrics
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                        Document workflow optimization
+                        Asset-level drill-downs
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-blue-400 mr-2" />
-                        Commission tracking systems
+                        Financial statements & exports
                       </li>
                     </ul>
                   </CardContent>
@@ -233,23 +233,23 @@ export default function RealEstateAgencyLanding() {
                     <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-500/30 group-hover:scale-110 transition-all">
                       <TrendingUp className="h-7 w-7 text-green-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3">Data Analytics & Insights</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">Pipeline & Deal Management</h3>
                     <p className="text-white/70 mb-4">
-                      Transform your data into actionable insights with advanced analytics and real-time reporting
-                      dashboards.
+                      Kanban-style pipelines built around your stages, with bottleneck detection, stage timing,
+                      and weighted forecasting.
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-green-400 mr-2" />
-                        Performance analytics
+                        Customizable deal stages
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-green-400 mr-2" />
-                        Market trend analysis
+                        Stalled deal alerts
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-green-400 mr-2" />
-                        Agent productivity metrics
+                        Weighted pipeline forecasting
                       </li>
                     </ul>
                   </CardContent>
@@ -261,23 +261,23 @@ export default function RealEstateAgencyLanding() {
                     <div className="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-500/30 group-hover:scale-110 transition-all">
                       <Users className="h-7 w-7 text-purple-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3">CRM Optimization</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">Operations & Workflow Tools</h3>
                     <p className="text-white/70 mb-4">
-                      Enhance your customer relationship management with intelligent lead scoring and automated nurturing
-                      campaigns.
+                      A central hub for deals, tasks, comments, and documents — replacing the spreadsheets,
+                      shared drives, and email threads your team is held together with.
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-purple-400 mr-2" />
-                        Smart lead scoring
+                        Tasks linked to deals
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-purple-400 mr-2" />
-                        Automated follow-ups
+                        Document storage by property
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-purple-400 mr-2" />
-                        Client lifecycle management
+                        Team collaboration & activity feed
                       </li>
                     </ul>
                   </CardContent>
@@ -289,22 +289,23 @@ export default function RealEstateAgencyLanding() {
                     <div className="w-14 h-14 bg-cyan-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cyan-500/30 group-hover:scale-110 transition-all">
                       <Globe className="h-7 w-7 text-cyan-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3">Digital Transformation</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">Executive Reporting & Forecasting</h3>
                     <p className="text-white/70 mb-4">
-                      Modernize your technology stack with cloud-based solutions and mobile-first approaches.
+                      High-level dashboards built for principals and executives — pipeline health, revenue
+                      forecasts, and team performance at a glance.
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-cyan-400 mr-2" />
-                        Cloud infrastructure setup
+                        Revenue forecasting
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-cyan-400 mr-2" />
-                        Mobile app development
+                        Team performance leaderboards
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-cyan-400 mr-2" />
-                        System integrations
+                        Drill-down by rep or stage
                       </li>
                     </ul>
                   </CardContent>
@@ -316,22 +317,23 @@ export default function RealEstateAgencyLanding() {
                     <div className="w-14 h-14 bg-amber-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500/30 group-hover:scale-110 transition-all">
                       <DollarSign className="h-7 w-7 text-amber-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3">Financial Operations</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">Investor & Client Portals</h3>
                     <p className="text-white/70 mb-4">
-                      Streamline financial processes with automated accounting, commission management, and expense tracking.
+                      Branded portals where your investors and clients log in to see their holdings,
+                      distributions, and performance — without you sending another PDF.
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-amber-400 mr-2" />
-                        Automated bookkeeping
+                        Secure investor login
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-amber-400 mr-2" />
-                        Commission calculations
+                        Distribution tracking
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-amber-400 mr-2" />
-                        Expense management
+                        Branded for your firm
                       </li>
                     </ul>
                   </CardContent>
@@ -343,22 +345,23 @@ export default function RealEstateAgencyLanding() {
                     <div className="w-14 h-14 bg-rose-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-rose-500/30 group-hover:scale-110 transition-all">
                       <Clock className="h-7 w-7 text-rose-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3">Training & Support</h3>
+                    <h3 className="text-xl font-bold text-white mb-3">Integrations & Data Pipelines</h3>
                     <p className="text-white/70 mb-4">
-                      Comprehensive training programs and ongoing support to ensure successful adoption of new systems.
+                      We connect the systems you already use — Yardi, MRI, Salesforce, QuickBooks, Google
+                      Drive — so your data lives in one place and stays in sync.
                     </p>
                     <ul className="space-y-2">
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-rose-400 mr-2" />
-                        Staff training programs
+                        Connect existing tools
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-rose-400 mr-2" />
-                        24/7 technical support
+                        Automated data syncs
                       </li>
                       <li className="flex items-center text-sm text-white/70">
                         <CheckCircle className="h-4 w-4 text-rose-400 mr-2" />
-                        Ongoing optimization
+                        One source of truth
                       </li>
                     </ul>
                   </CardContent>
@@ -454,13 +457,13 @@ export default function RealEstateAgencyLanding() {
             <div className="container mx-auto px-4 lg:px-6">
               <div className="grid lg:grid-cols-2 gap-16 items-center">
                 <div className="space-y-8">
-                  <Badge className="bg-green-500/20 text-green-300 border border-green-500/30">Why Choose Us</Badge>
+                  <Badge className="bg-green-500/20 text-green-300 border border-green-500/30">Why Custom Software</Badge>
                   <h2 className="text-3xl lg:text-5xl font-bold text-white">
-                    Proven Strategies That <span className="text-green-400">Drive Growth</span>
+                    Built For You, <span className="text-green-400">Not For Everyone</span>
                   </h2>
                   <p className="text-xl text-white/70">
-                    Our clients see immediate improvements in efficiency, cost savings, and agent productivity. Here&apos;s what
-                    you can expect when you partner with us.
+                    Generic platforms force you to compromise. A custom build means software that mirrors
+                    your workflow, your terminology, and your reporting — and it grows with you.
                   </p>
 
                   <div className="space-y-6">
@@ -469,10 +472,10 @@ export default function RealEstateAgencyLanding() {
                         <CheckCircle className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white mb-1">40% Increase in Operational Efficiency</h3>
+                        <h3 className="text-lg font-bold text-white mb-1">Fits Your Workflow Exactly</h3>
                         <p className="text-white/60">
-                          Streamlined processes and automation reduce manual work, allowing your team to focus on
-                          revenue-generating activities.
+                          We design around how your team actually closes deals and reports to LPs — not
+                          around someone else&apos;s product roadmap.
                         </p>
                       </div>
                     </div>
@@ -482,10 +485,10 @@ export default function RealEstateAgencyLanding() {
                         <CheckCircle className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white mb-1">25% Reduction in Operating Costs</h3>
+                        <h3 className="text-lg font-bold text-white mb-1">No Per-Seat License Tax</h3>
                         <p className="text-white/60">
-                          Eliminate redundancies and optimize resource allocation to significantly reduce your operational
-                          expenses.
+                          You pay to build it once. No SaaS bill that climbs every time you hire someone or
+                          add a property to the portfolio.
                         </p>
                       </div>
                     </div>
@@ -495,9 +498,10 @@ export default function RealEstateAgencyLanding() {
                         <CheckCircle className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white mb-1">60% Faster Deal Processing</h3>
+                        <h3 className="text-lg font-bold text-white mb-1">Shipped In Weeks, Not Quarters</h3>
                         <p className="text-white/60">
-                          Automated workflows and intelligent document management accelerate your transaction timelines.
+                          Most first releases go live in 4–8 weeks. You see real screens within days of
+                          kickoff and iterate from there.
                         </p>
                       </div>
                     </div>
@@ -507,9 +511,10 @@ export default function RealEstateAgencyLanding() {
                         <BarChart3 className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white mb-1">Real-time Business Intelligence</h3>
+                        <h3 className="text-lg font-bold text-white mb-1">You Own The Code</h3>
                         <p className="text-white/60">
-                          Make data-driven decisions with comprehensive analytics and reporting dashboards.
+                          The repo, the data, the deployment — all yours. No vendor lock-in, no platform
+                          risk if we ever part ways.
                         </p>
                       </div>
                     </div>
@@ -519,8 +524,8 @@ export default function RealEstateAgencyLanding() {
                 <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/10">
                   <div className="space-y-6">
                     <div className="text-center mb-6">
-                      <h3 className="text-xl font-bold text-white mb-2">Our Approach</h3>
-                      <p className="text-sm text-white/60">Proven methodology for brokerage optimization</p>
+                      <h3 className="text-xl font-bold text-white mb-2">How We Build</h3>
+                      <p className="text-sm text-white/60">From first call to shipped product</p>
                     </div>
 
                     <div className="space-y-4">
@@ -529,8 +534,8 @@ export default function RealEstateAgencyLanding() {
                           1
                         </div>
                         <div>
-                          <h4 className="text-white font-medium">Discovery & Analysis</h4>
-                          <p className="text-sm text-white/60">Deep dive into your current processes and pain points</p>
+                          <h4 className="text-white font-medium">Discovery</h4>
+                          <p className="text-sm text-white/60">We learn your workflow, data, and what success looks like</p>
                         </div>
                       </div>
 
@@ -539,8 +544,8 @@ export default function RealEstateAgencyLanding() {
                           2
                         </div>
                         <div>
-                          <h4 className="text-white font-medium">Custom Solution Design</h4>
-                          <p className="text-sm text-white/60">Tailored optimization plan for your specific needs</p>
+                          <h4 className="text-white font-medium">Prototype</h4>
+                          <p className="text-sm text-white/60">A clickable demo with your data within the first week</p>
                         </div>
                       </div>
 
@@ -549,15 +554,15 @@ export default function RealEstateAgencyLanding() {
                           3
                         </div>
                         <div>
-                          <h4 className="text-white font-medium">Implementation & Support</h4>
-                          <p className="text-sm text-white/60">Guided rollout with ongoing optimization</p>
+                          <h4 className="text-white font-medium">Build & Ship</h4>
+                          <p className="text-sm text-white/60">Iterate weekly, deploy to production, hand over the keys</p>
                         </div>
                       </div>
                     </div>
 
                     <div className="bg-white/10 rounded-lg p-4 text-center mt-6">
-                      <p className="text-white font-medium mb-1">Ready to get started?</p>
-                      <p className="text-sm text-white/60">Schedule your free consultation today</p>
+                      <p className="text-white font-medium mb-1">Want to see what we&apos;d build for you?</p>
+                      <p className="text-sm text-white/60">Schedule a free discovery call</p>
                     </div>
                   </div>
                 </div>
@@ -571,19 +576,19 @@ export default function RealEstateAgencyLanding() {
               <div className="max-w-4xl mx-auto text-center space-y-8">
                 <Badge className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-4 py-1">
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Start Your Transformation
+                  Let&apos;s Build Something
                 </Badge>
                 <h2 className="text-3xl lg:text-5xl font-bold text-white">
-                  Ready to Transform Your <span className="text-blue-400">Brokerage?</span>
+                  Have An Idea For A <span className="text-blue-400">Custom Tool?</span>
                 </h2>
                 <p className="text-xl text-white/70 max-w-2xl mx-auto">
-                  Schedule a discovery call today and learn how we can optimize your operations, reduce costs, and
-                  accelerate your growth with intelligent infrastructure solutions.
+                  Tell us about the workflow you wish was easier. We&apos;ll come back with a clickable prototype
+                  and a plan to ship it.
                 </p>
 
                 <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 max-w-md mx-auto border border-white/10 shadow-2xl">
-                  <h3 className="text-xl font-bold text-white mb-2">Schedule Your Discovery Call</h3>
-                  <p className="text-white/60 text-sm mb-6">Get a custom roadmap for your brokerage</p>
+                  <h3 className="text-xl font-bold text-white mb-2">Schedule A Discovery Call</h3>
+                  <p className="text-white/60 text-sm mb-6">30 minutes. We&apos;ll talk through what you&apos;d want built.</p>
                   <form className="space-y-4">
                     <Input
                       type="text"
@@ -597,7 +602,7 @@ export default function RealEstateAgencyLanding() {
                     />
                     <Input
                       type="text"
-                      placeholder="Brokerage Name"
+                      placeholder="Company"
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-blue-500"
                     />
                     <Button size="lg" className="w-full bg-white text-black hover:bg-gray-100 rounded-full" asChild>
@@ -632,17 +637,17 @@ export default function RealEstateAgencyLanding() {
                     <span className="text-xl font-bold">Omnia Solutions</span>
                   </div>
                   <p className="text-white/60 max-w-sm">
-                    Transforming real estate brokerages with intelligent infrastructure and modern operational solutions.
+                    Custom dashboards, internal tools, and operational software built for real estate teams.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-4">Services</h3>
+                  <h3 className="font-semibold mb-4">What We Build</h3>
                   <ul className="space-y-2 text-white/60">
-                    <li><Link href="#" className="hover:text-white transition-colors">Process Automation</Link></li>
-                    <li><Link href="#" className="hover:text-white transition-colors">Data Analytics</Link></li>
-                    <li><Link href="#" className="hover:text-white transition-colors">CRM Optimization</Link></li>
-                    <li><Link href="#" className="hover:text-white transition-colors">Digital Transformation</Link></li>
+                    <li><Link href="#" className="hover:text-white transition-colors">Portfolio Dashboards</Link></li>
+                    <li><Link href="#" className="hover:text-white transition-colors">Pipeline & Deal Management</Link></li>
+                    <li><Link href="#" className="hover:text-white transition-colors">Operations Tools</Link></li>
+                    <li><Link href="#" className="hover:text-white transition-colors">Investor Portals</Link></li>
                   </ul>
                 </div>
 
