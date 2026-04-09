@@ -16,8 +16,6 @@ import {
   Landmark,
   TrendingUp,
   Users,
-  Shield,
-  Award,
   Sparkles,
   Play,
 } from "lucide-react"
@@ -81,10 +79,9 @@ export default function RealEstateAgencyLanding() {
           <section className="min-h-screen flex items-center justify-center px-4 py-20 relative">
             <div className="max-w-4xl mx-auto text-center relative z-10 animate-fade-in-hero">
               {/* Badge */}
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-8 mt-12 animate-fade-in-badge">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+              <p className="text-sm font-medium uppercase tracking-widest text-blue-400/90 mb-8 mt-12 animate-fade-in-badge">
                 Custom Software for Real Estate
-              </div>
+              </p>
 
               {/* Main Heading */}
               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-balance mb-6 animate-fade-in-heading">
@@ -140,19 +137,12 @@ export default function RealEstateAgencyLanding() {
               </div>
 
               {/* Trust Indicators */}
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-4 animate-fade-in-trust">
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                  <Shield className="h-5 w-5 text-green-400" />
-                  <span className="text-sm text-white/80">Built To Scale</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                  <Award className="h-5 w-5 text-blue-400" />
-                  <span className="text-sm text-white/80">Real Estate Specialists</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                  <Sparkles className="h-5 w-5 text-purple-400" />
-                  <span className="text-sm text-white/80">Shipped In Weeks</span>
-                </div>
+              <div className="flex items-center justify-center gap-3 pt-4 animate-fade-in-trust text-sm text-white/50">
+                <span>Built To Scale</span>
+                <span className="text-white/20">|</span>
+                <span>Real Estate Specialists</span>
+                <span className="text-white/20">|</span>
+                <span>Shipped In Weeks</span>
               </div>
             </div>
           </section>
