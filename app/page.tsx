@@ -143,7 +143,7 @@ export default function RealEstateAgencyLanding() {
               <div className="flex flex-wrap items-center justify-center gap-4 pt-4 animate-fade-in-trust">
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
                   <Shield className="h-5 w-5 text-green-400" />
-                  <span className="text-sm text-white/80">You Own The Code</span>
+                  <span className="text-sm text-white/80">Built To Scale</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
                   <Award className="h-5 w-5 text-blue-400" />
@@ -174,7 +174,7 @@ export default function RealEstateAgencyLanding() {
                 </div>
                 <div className="text-center group">
                   <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Yours</div>
-                  <div className="text-white/60 text-sm">You Own The Code</div>
+                  <div className="text-white/60 text-sm">Tailored To Your Firm</div>
                 </div>
                 <div className="text-center group">
                   <div className="text-4xl lg:text-5xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">1:1</div>
@@ -511,10 +511,10 @@ export default function RealEstateAgencyLanding() {
                         <BarChart3 className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white mb-1">You Own The Code</h3>
+                        <h3 className="text-lg font-bold text-white mb-1">Real-Time Visibility</h3>
                         <p className="text-white/60">
-                          The repo, the data, the deployment — all yours. No vendor lock-in, no platform
-                          risk if we ever part ways.
+                          Live dashboards that pull from your actual data — no more waiting for someone
+                          to build a spreadsheet before the Monday meeting.
                         </p>
                       </div>
                     </div>
