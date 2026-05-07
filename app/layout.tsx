@@ -1,20 +1,25 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { JetBrains_Mono } from "next/font/google"
+import { GeistSans } from "geist/font/sans"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
-  title: "Omnia Solutions — Custom Software For Real Estate Teams",
+  title: "Omnia Solutions — A Studio for Real Estate Operating Software",
   description:
-    "We design and build custom dashboards, internal tools, and operational software for real estate teams — purpose-built for how your firm actually works.",
+    "Omnia is a studio that designs and builds custom dashboards, deal pipelines, and internal tools for property managers, asset managers, brokerages, and lenders.",
   icons: {
     icon: "/images/omnia-ikon.png",
     shortcut: "/images/omnia-ikon.png",
     apple: "/images/omnia-ikon.png",
   },
-    generator: 'v0.app'
+  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -23,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${GeistSans.variable} ${jetbrains.variable}`}>
+      <body className="font-sans antialiased bg-paper text-ink">{children}</body>
     </html>
   )
 }
