@@ -326,14 +326,13 @@ export function CalendarWidget() {
             <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">Loading availability…</p>
           </div>
         ) : (
-          <div className="grid grid-cols-7 gap-px border border-ink/10 bg-ink/10">
+          <div className="grid grid-cols-5 gap-px border border-ink/10 bg-ink/10">
             {days.map((day) => {
               const d = parseDateString(day.date)
               const isToday = d.toDateString() === new Date().toDateString()
               const isPast = d.getTime() < today.getTime()
-              const isWeekend = d.getDay() === 0 || d.getDay() === 6
               return (
-                <div key={day.date} className={`flex flex-col bg-paper ${isWeekend ? "bg-paper-dim/60" : ""}`}>
+                <div key={day.date} className="flex flex-col bg-paper">
                   <div className={`border-b border-ink/10 px-2 py-2 text-center ${isToday ? "bg-paper-dim" : ""}`}>
                     <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
                       {DAY_NAMES[d.getDay()]}
@@ -346,10 +345,6 @@ export function CalendarWidget() {
                   <div className="flex flex-col gap-px overflow-y-auto p-1.5" style={{ maxHeight: "420px" }}>
                     {isPast ? (
                       <div className="py-6 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft-2">—</div>
-                    ) : isWeekend ? (
-                      <div className="py-6 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft-2">
-                        Closed
-                      </div>
                     ) : day.slots.length === 0 ? (
                       <div className="py-6 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft-2">
                         None
