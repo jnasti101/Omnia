@@ -63,6 +63,33 @@ function formatLocal(date: Date): string {
   }).format(date)
 }
 
+function formatDateOnly(date: Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: TIMEZONE,
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date)
+}
+
+function formatTimeOnly(date: Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: TIMEZONE,
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date)
+}
+
+function formatTimeWithZone(date: Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: TIMEZONE,
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  }).format(date)
+}
+
 type SendBookingEmailsInput = {
   visitorName: string
   visitorEmail: string
@@ -122,63 +149,217 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
     content: Buffer.from(ics).toString("base64"),
   }
 
-  const meetBlockVisitor = meetLink
-    ? `<div style="margin: 16px 0;">
-        <a href="${meetLink}" style="display: inline-block; background: #0a1a33; color: #f6f4ee; text-decoration: none; padding: 12px 20px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;">Join Google Meet →</a>
-        <p style="margin: 8px 0 0; font-size: 12px; color: #64748b; word-break: break-all;">${escapeHtml(meetLink)}</p>
-      </div>`
-    : ""
+  const dateOnly = formatDateOnly(input.start)
+  const timeRange = `${formatTimeOnly(input.start)} – ${formatTimeWithZone(input.end)}`
 
-  const visitorHtml = `
-    <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 560px; margin: 0 auto; color: #0f172a;">
-      <h2 style="margin: 0 0 16px;">You're booked.</h2>
-      <p>Hi ${escapeHtml(input.visitorName)},</p>
-      <p>Your discovery call with Omnia is confirmed. Details below — a calendar invite is attached.</p>
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">
-        <p style="margin: 0 0 8px;"><strong>When:</strong> ${escapeHtml(whenStr)}</p>
-        <p style="margin: 0 0 8px;"><strong>Duration:</strong> 30 minutes</p>
-        <p style="margin: 0;"><strong>Format:</strong> Google Meet (link below)</p>
-      </div>
-      ${meetBlockVisitor}
-      <p>If you need to reschedule, just reply to this email.</p>
-      <p style="color: #64748b; font-size: 13px; margin-top: 32px;">— ${escapeHtml(organizerName)}</p>
-    </div>
-  `
+  const visitorHtml = renderEmailShell({
+    dateline: "№ 03 / Confirmed",
+    heading: { lead: "You're", emphasis: "on the calendar." },
+    intro: `Hi ${escapeHtml(input.visitorName)} — your discovery call with Omnia is confirmed. The calendar invite is attached; add it with one tap.`,
+    particulars: [
+      { label: "Date", value: escapeHtml(dateOnly) },
+      { label: "Time", value: escapeHtml(timeRange) },
+      { label: "Duration", value: "30 minutes" },
+      { label: "Format", value: "Google Meet" },
+    ],
+    cta: meetLink ? { href: meetLink, label: "Join Google Meet" } : null,
+    ctaSubtext: meetLink
+      ? `Or paste this link in your browser at the time of the call: <a href="${meetLink}" style="color: #2d7ac4; word-break: break-all;">${escapeHtml(meetLink)}</a>`
+      : null,
+    closing: "If anything needs to change, just reply to this email and we'll find a new time.",
+    signoff: organizerName,
+    footer: "Reply to this email to reschedule",
+  })
 
   await resend.emails.send({
     from: fromEmail,
     to: input.visitorEmail,
-    subject: `Confirmed: Discovery call with Omnia — ${whenStr}`,
+    subject: `Confirmed: Discovery call with Omnia — ${dateOnly}`,
     html: visitorHtml,
     attachments: [icsAttachment],
   })
 
   if (notifyEmail) {
-    const meetBlockNotify = meetLink
-      ? `<p style="margin: 0 0 8px;"><strong>Meet:</strong> <a href="${meetLink}">${escapeHtml(meetLink)}</a></p>`
-      : ""
-    const notifyHtml = `
-      <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 560px; margin: 0 auto; color: #0f172a;">
-        <h2 style="margin: 0 0 16px;">New booking</h2>
-        <p style="color: #64748b; margin: 0 0 16px; font-size: 13px;">The event is on your Google Calendar — no need to accept.</p>
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;">
-          <p style="margin: 0 0 8px;"><strong>When:</strong> ${escapeHtml(whenStr)}</p>
-          ${meetBlockNotify}
-          <p style="margin: 0 0 8px;"><strong>Name:</strong> ${escapeHtml(input.visitorName)}</p>
-          <p style="margin: 0 0 8px;"><strong>Email:</strong> ${escapeHtml(input.visitorEmail)}</p>
-          ${input.visitorCompany ? `<p style="margin: 0 0 8px;"><strong>Company:</strong> ${escapeHtml(input.visitorCompany)}</p>` : ""}
-          ${input.visitorPhone ? `<p style="margin: 0 0 8px;"><strong>Phone:</strong> ${escapeHtml(input.visitorPhone)}</p>` : ""}
-          ${input.visitorNotes ? `<p style="margin: 12px 0 0; white-space: pre-wrap;"><strong>Notes:</strong>\n${escapeHtml(input.visitorNotes)}</p>` : ""}
-        </div>
-      </div>
-    `
+    const notifyParticulars: Particular[] = [
+      { label: "When", value: escapeHtml(`${dateOnly} · ${timeRange}`) },
+    ]
+    if (meetLink) {
+      notifyParticulars.push({
+        label: "Meet",
+        value: `<a href="${meetLink}" style="color: #2d7ac4; word-break: break-all;">${escapeHtml(meetLink)}</a>`,
+      })
+    }
+    notifyParticulars.push(
+      { label: "Name", value: escapeHtml(input.visitorName) },
+      { label: "Email", value: `<a href="mailto:${input.visitorEmail}" style="color: #2d7ac4;">${escapeHtml(input.visitorEmail)}</a>` },
+    )
+    if (input.visitorCompany) notifyParticulars.push({ label: "Company", value: escapeHtml(input.visitorCompany) })
+    if (input.visitorPhone) notifyParticulars.push({ label: "Phone", value: escapeHtml(input.visitorPhone) })
+
+    const notifyHtml = renderEmailShell({
+      dateline: "№ 04 / New booking",
+      heading: { lead: "A new", emphasis: "discovery call." },
+      intro: `${escapeHtml(input.visitorName)} just booked a slot. It's already on your Google Calendar — no need to accept.`,
+      particulars: notifyParticulars,
+      cta: meetLink ? { href: meetLink, label: "Open Google Meet" } : null,
+      ctaSubtext: null,
+      closing: input.visitorNotes
+        ? `<strong style="display: block; font-family: 'Menlo','Monaco','Consolas',monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: #5c6b82; margin-bottom: 8px;">Notes from ${escapeHtml(input.visitorName)}</strong><span style="white-space: pre-wrap;">${escapeHtml(input.visitorNotes)}</span>`
+        : null,
+      signoff: null,
+      footer: "Omnia Solutions · Internal notification",
+    })
+
     await resend.emails.send({
       from: fromEmail,
       to: notifyEmail,
-      subject: `New booking: ${input.visitorName} — ${whenStr}`,
+      subject: `New booking: ${input.visitorName} — ${dateOnly}`,
       html: notifyHtml,
     })
   }
+}
+
+type Particular = { label: string; value: string }
+
+type EmailShellInput = {
+  dateline: string
+  heading: { lead: string; emphasis: string }
+  intro: string
+  particulars: Particular[]
+  cta: { href: string; label: string } | null
+  ctaSubtext: string | null
+  closing: string | null
+  signoff: string | null
+  footer: string
+}
+
+function renderEmailShell(input: EmailShellInput): string {
+  const fontStack = "'Helvetica Neue', Helvetica, Arial, sans-serif"
+  const monoStack = "'Menlo', 'Monaco', 'Consolas', monospace"
+  const ink = "#0a1a33"
+  const inkSoft = "#1f2d44"
+  const inkMuted = "#5c6b82"
+  const paper = "#f6f4ee"
+  const paperDim = "#ecebe4"
+  const rule = "rgba(10,26,51,0.15)"
+  const ruleSoft = "rgba(10,26,51,0.1)"
+  const brand = "#2d7ac4"
+
+  const particularsRows = input.particulars
+    .map(
+      (p, i) => `
+      <tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid ${ruleSoft}; font-family: ${monoStack}; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: ${inkMuted}; vertical-align: top; white-space: nowrap;">
+          ${escapeHtml(p.label)}
+        </td>
+        <td style="padding: 10px 0 10px 24px; border-bottom: 1px solid ${ruleSoft}; font-family: ${fontStack}; font-size: 15px; color: ${ink}; text-align: right; vertical-align: top;">
+          ${p.value}
+        </td>
+      </tr>`,
+    )
+    .join("")
+
+  const ctaBlock = input.cta
+    ? `
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin: 28px 0 0;">
+        <tr>
+          <td style="background: ${ink};">
+            <a href="${input.cta.href}" style="display: inline-block; padding: 14px 26px; font-family: ${monoStack}; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; color: ${paper};">
+              ${escapeHtml(input.cta.label)} &nbsp;→
+            </a>
+          </td>
+        </tr>
+      </table>
+      ${input.ctaSubtext ? `<p style="margin: 14px 0 0; font-family: ${fontStack}; font-size: 13px; line-height: 1.5; color: ${inkMuted};">${input.ctaSubtext}</p>` : ""}
+    `
+    : ""
+
+  const closingBlock = input.closing
+    ? `<p style="margin: 28px 0 0; padding-top: 24px; border-top: 1px solid ${ruleSoft}; font-family: ${fontStack}; font-size: 14px; line-height: 1.55; color: ${inkSoft};">${input.closing}</p>`
+    : ""
+
+  const signoffBlock = input.signoff
+    ? `<p style="margin: 20px 0 0; font-family: ${fontStack}; font-size: 13px; color: ${inkMuted};">— ${escapeHtml(input.signoff)}</p>`
+    : ""
+
+  return `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Omnia</title>
+  </head>
+  <body style="margin: 0; padding: 0; background: ${paperDim}; color: ${ink}; font-family: ${fontStack};">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: ${paperDim};">
+      <tr>
+        <td align="center" style="padding: 48px 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width: 600px; width: 100%; background: ${paper}; border: 1px solid ${rule};">
+
+            <!-- Header / dateline -->
+            <tr>
+              <td style="padding: 18px 32px; border-bottom: 1px solid ${rule};">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="font-family: ${monoStack}; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: ${brand};">
+                      ${escapeHtml(input.dateline)}
+                    </td>
+                    <td style="font-family: ${monoStack}; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: ${inkMuted}; text-align: right;">
+                      Omnia Solutions
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding: 40px 32px 36px;">
+                <h1 style="margin: 0 0 24px; font-family: ${fontStack}; font-weight: 800; font-size: 40px; line-height: 1.0; letter-spacing: -0.035em; color: ${ink};">
+                  ${escapeHtml(input.heading.lead)}
+                  <span style="font-style: italic; font-weight: 800; color: ${inkSoft};">${escapeHtml(input.heading.emphasis)}</span>
+                </h1>
+
+                <p style="margin: 0 0 28px; font-family: ${fontStack}; font-size: 16px; line-height: 1.55; color: ${ink};">
+                  ${input.intro}
+                </p>
+
+                <!-- Particulars -->
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid ${ink}; margin-top: 8px;">
+                  <tr>
+                    <td colspan="2" style="padding: 14px 0 4px; font-family: ${monoStack}; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: ${inkMuted};">
+                      The particulars
+                    </td>
+                  </tr>
+                  ${particularsRows}
+                </table>
+
+                ${ctaBlock}
+                ${closingBlock}
+                ${signoffBlock}
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 16px 32px; background: ${paperDim}; border-top: 1px solid ${rule};">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="font-family: ${monoStack}; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: ${inkMuted};">
+                      ${escapeHtml(input.footer)}
+                    </td>
+                    <td style="font-family: ${monoStack}; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: ${inkMuted}; text-align: right;">
+                      omnia.fyi
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`
 }
 
 function escapeHtml(s: string): string {
