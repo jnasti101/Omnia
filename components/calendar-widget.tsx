@@ -1,8 +1,8 @@
 "use client"
 
 import type React from "react"
-import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 type Slot = { time: string; iso: string }
@@ -70,10 +70,11 @@ export function CalendarWidget() {
   const [error, setError] = useState<string | null>(null)
   const [tz, setTz] = useState<string>("UTC")
 
-  const [step, setStep] = useState<"pick" | "form" | "confirmation">("pick")
+  const [step, setStep] = useState<"pick" | "form">("pick")
   const [selectedSlot, setSelectedSlot] = useState<{ date: string; slot: Slot } | null>(null)
   const [formData, setFormData] = useState<Partial<BookingFormData>>({})
   const [submitLoading, setSubmitLoading] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     setTz(detectTimezone())
@@ -139,82 +140,28 @@ export function CalendarWidget() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || "Failed to create booking")
-      setStep("confirmation")
+      try {
+        sessionStorage.setItem(
+          "omnia_booking",
+          JSON.stringify({
+            email: formData.email,
+            date: selectedSlot.date,
+            slotIso: selectedSlot.slot.iso,
+          }),
+        )
+      } catch {
+        // sessionStorage may be unavailable (e.g., private mode) — page falls back to generic copy
+      }
+      router.push("/schedule/booked")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create booking")
-    } finally {
       setSubmitLoading(false)
     }
-  }
-
-  const resetBooking = () => {
-    setStep("pick")
-    setSelectedSlot(null)
-    setFormData({})
-    setError(null)
   }
 
   const formattedSelectedDate = selectedSlot
     ? new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }).format(parseDateString(selectedSlot.date))
     : ""
-
-  if (step === "confirmation") {
-    return (
-      <div className="border border-ink/15 bg-paper">
-        <div className="flex items-baseline justify-between border-b border-ink/15 px-6 py-4">
-          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand">№ 03 / Confirmed</span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">Reply by email to reschedule</span>
-        </div>
-        <div className="px-6 py-10 lg:px-10 lg:py-14">
-          <h2 className="display text-[44px] leading-[0.95] text-ink lg:text-[64px]">
-            You're <span className="display-italic">on the calendar.</span>
-          </h2>
-          <div className="mt-8 grid grid-cols-12 gap-6">
-            <div className="col-span-12 md:col-span-7 text-[16px] leading-[1.55] text-ink">
-              <p>
-                A confirmation has been sent to <span className="font-semibold">{formData.email}</span> with a calendar
-                invite attached. Add it with one click.
-              </p>
-              <p className="mt-4 text-ink-muted">If anything changes, just reply to that email — we'll find a new time.</p>
-            </div>
-            <aside className="col-span-12 md:col-span-4 md:col-start-9">
-              <div className="border-t border-ink pt-4">
-                <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">The particulars</div>
-                <dl className="divide-y divide-ink/10 text-[14px]">
-                  <Detail label="Date" value={formattedSelectedDate} />
-                  <Detail
-                    label="Time"
-                    value={
-                      <>
-                        {selectedSlot ? formatTimeInZone(selectedSlot.slot.iso, tz) : ""}{" "}
-                        <span className="text-ink-muted">{tzShort}</span>
-                      </>
-                    }
-                  />
-                  <Detail label="Duration" value="30 minutes" />
-                </dl>
-              </div>
-            </aside>
-          </div>
-          <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
-            <button
-              onClick={resetBooking}
-              className="group inline-flex items-center gap-3 bg-ink px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand"
-            >
-              <span>Schedule another</span>
-              <span className="transition-transform group-hover:translate-x-1">→</span>
-            </button>
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.18em] text-ink"
-            >
-              <span className="ink-link">Back to home</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   if (step === "form" && selectedSlot) {
     return (
@@ -367,15 +314,6 @@ export function CalendarWidget() {
           </div>
         )}
       </div>
-    </div>
-  )
-}
-
-function Detail({ label, value }: { label: string; value: React.ReactNode }) {
-  return (
-    <div className="flex items-baseline justify-between py-2">
-      <dt className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">{label}</dt>
-      <dd className="text-ink">{value}</dd>
     </div>
   )
 }
