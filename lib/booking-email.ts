@@ -152,6 +152,8 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
   const dateOnly = formatDateOnly(input.start)
   const timeRange = `${formatTimeOnly(input.start)} – ${formatTimeWithZone(input.end)}`
 
+  const replyTo = "joe@omnia.fyi"
+
   const visitorHtml = renderEmailShell({
     dateline: "№ 03 / Confirmed",
     heading: { lead: "You're", emphasis: "on the calendar." },
@@ -166,14 +168,15 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
     ctaSubtext: meetLink
       ? `Or paste this link in your browser at the time of the call: <a href="${meetLink}" style="color: #2d7ac4; word-break: break-all;">${escapeHtml(meetLink)}</a>`
       : null,
-    closing: "If anything needs to change, just reply to this email and we'll find a new time.",
+    closing: `Need to reschedule or have a question? Email <a href="mailto:${replyTo}" style="color: #2d7ac4;">${replyTo}</a> and we'll sort it out.`,
     signoff: organizerName,
-    footer: "Reply to this email to reschedule",
+    footer: `Questions → ${replyTo}`,
   })
 
   await resend.emails.send({
     from: fromEmail,
     to: input.visitorEmail,
+    replyTo,
     subject: `Confirmed: Discovery call with Omnia — ${dateOnly}`,
     html: visitorHtml,
     attachments: [icsAttachment],
@@ -213,6 +216,7 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
     await resend.emails.send({
       from: fromEmail,
       to: notifyEmail,
+      replyTo: input.visitorEmail,
       subject: `New booking: ${input.visitorName} — ${dateOnly}`,
       html: notifyHtml,
     })
