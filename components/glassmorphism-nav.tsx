@@ -136,7 +136,7 @@ export function GlassmorphismNav() {
               {/* Desktop CTA Button */}
               <div className="hidden md:block">
                 <a
-                  href="https://cal.com/omnia-solutions/discovery-call"
+                  href="/schedule"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative bg-white hover:bg-gray-50 text-black font-medium px-6 py-2 rounded-full flex items-center transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer group"
@@ -209,7 +209,7 @@ export function GlassmorphismNav() {
                 )}
                 <div className="h-px bg-white/10 my-2" />
                 <a
-                  href="https://cal.com/omnia-solutions/discovery-call"
+                  href="/schedule"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`relative bg-white hover:bg-gray-50 text-black font-medium px-6 py-3 rounded-full flex items-center transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer group transform ${

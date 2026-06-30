@@ -142,9 +142,7 @@ export function HeroMasthead() {
         {/* CTA row */}
         <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8 lg:mt-14">
           <a
-            href="https://cal.com/omnia-solutions/discovery-call"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/schedule"
             className="group inline-flex items-center gap-3 bg-ink px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand"
           >
             <span>Begin a brief</span>

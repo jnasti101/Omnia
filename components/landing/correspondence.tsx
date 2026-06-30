@@ -86,7 +86,7 @@ export function Correspondence() {
                 onSubmit={(e) => {
                   e.preventDefault()
                   window.open(
-                    "https://cal.com/omnia-solutions/discovery-call",
+                    "/schedule",
                     "_blank",
                     "noopener,noreferrer"
                   )

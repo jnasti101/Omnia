@@ -2,372 +2,404 @@
 
 import type React from "react"
 import Link from "next/link"
+import { useEffect, useMemo, useState } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { ChevronLeft, ChevronRight, Calendar, Clock, User, Mail, Building, Phone } from "lucide-react"
-import { getAvailableTimeSlotsForDate, formatTimeSlot } from "@/lib/booking-utils"
-import { createBooking } from "@/actions/booking-actions"
-import type { BookingFormData } from "@/actions/booking-actions"
+type Slot = { time: string; iso: string }
+type DaySlots = { date: string; slots: Slot[] }
 
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-]
+type BookingFormData = {
+  name: string
+  email: string
+  company?: string
+  phone?: string
+  notes?: string
+}
 
-const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+function toDateString(date: Date): string {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, "0")
+  const d = String(date.getDate()).padStart(2, "0")
+  return `${y}-${m}-${d}`
+}
+
+function parseDateString(s: string): Date {
+  const [y, m, d] = s.split("-").map(Number)
+  return new Date(y, m - 1, d)
+}
+
+function startOfWeekFromToday(): Date {
+  const t = new Date()
+  t.setHours(0, 0, 0, 0)
+  return t
+}
+
+function addDays(date: Date, days: number): Date {
+  const d = new Date(date)
+  d.setDate(d.getDate() + days)
+  return d
+}
+
+function detectTimezone(): string {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"
+  } catch {
+    return "UTC"
+  }
+}
+
+function formatTimeInZone(iso: string, tz: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(iso))
+}
+
+function shortTimezoneLabel(tz: string): string {
+  const parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "short" }).formatToParts(new Date())
+  return parts.find((p) => p.type === "timeZoneName")?.value ?? tz
+}
+
+const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 export function CalendarWidget() {
-  const [currentDate, setCurrentDate] = useState(new Date())
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [selectedTime, setSelectedTime] = useState<string | null>(null)
-  const [availableSlots, setAvailableSlots] = useState<string[]>([])
+  const [weekStart, setWeekStart] = useState<Date>(startOfWeekFromToday())
+  const [days, setDays] = useState<DaySlots[]>([])
   const [loading, setLoading] = useState(false)
-  const [step, setStep] = useState<"date" | "time" | "form" | "confirmation">("date")
+  const [error, setError] = useState<string | null>(null)
+  const [tz, setTz] = useState<string>("UTC")
+
+  const [step, setStep] = useState<"pick" | "form" | "confirmation">("pick")
+  const [selectedSlot, setSelectedSlot] = useState<{ date: string; slot: Slot } | null>(null)
   const [formData, setFormData] = useState<Partial<BookingFormData>>({})
   const [submitLoading, setSubmitLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
+
+  useEffect(() => {
+    setTz(detectTimezone())
+  }, [])
+
+  const tzShort = useMemo(() => shortTimezoneLabel(tz), [tz])
+
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      setLoading(true)
+      setError(null)
+      try {
+        const res = await fetch(`/api/availability?from=${toDateString(weekStart)}&days=7`)
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || "Failed to load availability")
+        if (!cancelled) setDays(data.days ?? [])
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Failed to load availability")
+          setDays([])
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [weekStart])
 
   const today = new Date()
-  const currentMonth = currentDate.getMonth()
-  const currentYear = currentDate.getFullYear()
+  today.setHours(0, 0, 0, 0)
+  const canGoPrev = weekStart.getTime() > today.getTime()
 
-  // Get first day of month and number of days
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
-  const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
-  const firstDayWeekday = firstDayOfMonth.getDay()
-  const daysInMonth = lastDayOfMonth.getDate()
+  const weekEnd = addDays(weekStart, 6)
+  const weekRangeLabel = `${weekStart.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${weekEnd.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
 
-  // Generate calendar days
-  const calendarDays = []
-
-  // Add empty cells for days before month starts
-  for (let i = 0; i < firstDayWeekday; i++) {
-    calendarDays.push(null)
-  }
-
-  // Add days of the month
-  for (let day = 1; day <= daysInMonth; day++) {
-    calendarDays.push(new Date(currentYear, currentMonth, day))
-  }
-
-  const navigateMonth = (direction: "prev" | "next") => {
-    setCurrentDate((prev) => {
-      const newDate = new Date(prev)
-      if (direction === "prev") {
-        newDate.setMonth(prev.getMonth() - 1)
-      } else {
-        newDate.setMonth(prev.getMonth() + 1)
-      }
-      return newDate
-    })
-  }
-
-  const selectDate = async (date: Date) => {
-    setSelectedDate(date)
-    setSelectedTime(null)
-    setLoading(true)
-    setError(null)
-
-    try {
-      const slots = await getAvailableTimeSlotsForDate(date)
-      setAvailableSlots(slots)
-      setStep("time")
-    } catch (err) {
-      setError("Failed to load available time slots")
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const selectTime = (time: string) => {
-    setSelectedTime(time)
+  const pickSlot = (date: string, slot: Slot) => {
+    setSelectedSlot({ date, slot })
     setStep("form")
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!selectedDate || !selectedTime) return
-
+    if (!selectedSlot) return
     setSubmitLoading(true)
     setError(null)
-
-    const bookingData: BookingFormData = {
-      name: formData.name!,
-      email: formData.email!,
-      company: formData.company,
-      phone: formData.phone,
-      date: selectedDate.toISOString().split("T")[0],
-      time: selectedTime,
-      notes: formData.notes,
-    }
-
-    const result = await createBooking(bookingData)
-
-    if (result.success) {
-      setSuccess(result.message!)
+    try {
+      const res = await fetch("/api/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          phone: formData.phone,
+          notes: formData.notes,
+          date: selectedSlot.date,
+          time: selectedSlot.slot.time,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Failed to create booking")
       setStep("confirmation")
-    } else {
-      setError(result.error!)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create booking")
+    } finally {
+      setSubmitLoading(false)
     }
-
-    setSubmitLoading(false)
   }
 
   const resetBooking = () => {
-    setStep("date")
-    setSelectedDate(null)
-    setSelectedTime(null)
+    setStep("pick")
+    setSelectedSlot(null)
     setFormData({})
     setError(null)
-    setSuccess(null)
   }
 
-  const isDateAvailable = (date: Date) => {
-    if (date < today) return false
-    if (date.getDay() === 0 || date.getDay() === 6) return false // Weekend
-    return true
-  }
+  const formattedSelectedDate = selectedSlot
+    ? new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }).format(parseDateString(selectedSlot.date))
+    : ""
 
   if (step === "confirmation") {
     return (
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader className="text-center">
-          <CardTitle className="text-green-600">Booking Confirmed!</CardTitle>
-        </CardHeader>
-        <CardContent className="text-center space-y-4">
-          <div className="text-sm text-slate-600">
-            <p>{success}</p>
-            <div className="mt-4 p-4 bg-slate-50 rounded-lg">
+      <div className="border border-ink/15 bg-paper">
+        <div className="flex items-baseline justify-between border-b border-ink/15 px-6 py-4">
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand">№ 03 / Confirmed</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">Reply by email to reschedule</span>
+        </div>
+        <div className="px-6 py-10 lg:px-10 lg:py-14">
+          <h2 className="display text-[44px] leading-[0.95] text-ink lg:text-[64px]">
+            You're <span className="display-italic">on the calendar.</span>
+          </h2>
+          <div className="mt-8 grid grid-cols-12 gap-6">
+            <div className="col-span-12 md:col-span-7 text-[16px] leading-[1.55] text-ink">
               <p>
-                <strong>Date:</strong> {selectedDate?.toLocaleDateString()}
+                A confirmation has been sent to <span className="font-semibold">{formData.email}</span> with a calendar
+                invite attached. Add it with one click.
               </p>
-              <p>
-                <strong>Time:</strong> {selectedTime && formatTimeSlot(selectedTime)}
-              </p>
-              <p>
-                <strong>Duration:</strong> 30 minutes
-              </p>
+              <p className="mt-4 text-ink-muted">If anything changes, just reply to that email — we'll find a new time.</p>
             </div>
+            <aside className="col-span-12 md:col-span-4 md:col-start-9">
+              <div className="border-t border-ink pt-4">
+                <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">The particulars</div>
+                <dl className="divide-y divide-ink/10 text-[14px]">
+                  <Detail label="Date" value={formattedSelectedDate} />
+                  <Detail
+                    label="Time"
+                    value={
+                      <>
+                        {selectedSlot ? formatTimeInZone(selectedSlot.slot.iso, tz) : ""}{" "}
+                        <span className="text-ink-muted">{tzShort}</span>
+                      </>
+                    }
+                  />
+                  <Detail label="Duration" value="30 minutes" />
+                </dl>
+              </div>
+            </aside>
           </div>
-          <div className="flex flex-col gap-2">
-            <Button onClick={resetBooking} variant="outline" className="w-full bg-transparent">
-              Schedule Another Call
-            </Button>
-            <Button asChild variant="ghost" className="w-full">
-              <Link href="/">← Back to Home</Link>
-            </Button>
+          <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
+            <button
+              onClick={resetBooking}
+              className="group inline-flex items-center gap-3 bg-ink px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand"
+            >
+              <span>Schedule another</span>
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </button>
+            <Link
+              href="/"
+              className="group inline-flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.18em] text-ink"
+            >
+              <span className="ink-link">Back to home</span>
+            </Link>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )
   }
 
-  return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calendar className="h-5 w-5" />
-          Schedule Discovery Call
-        </CardTitle>
-        <div className="flex items-center justify-between">
-          {step !== "date" && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setStep(step === "time" ? "date" : step === "form" ? "time" : "date")}
-              className="self-start"
-            >
-              ← Back
-            </Button>
-          )}
-          <Button asChild variant="ghost" size="sm" className="text-slate-500 hover:text-slate-700">
-            <Link href="/">← Home</Link>
-          </Button>
+  if (step === "form" && selectedSlot) {
+    return (
+      <div className="border border-ink/15 bg-paper">
+        <div className="flex items-baseline justify-between border-b border-ink/15 px-6 py-4">
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand">№ 02 / Your details</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
+            Times in <span className="text-ink">{tzShort}</span> · {tz}
+          </span>
         </div>
-      </CardHeader>
-      <CardContent>
-        {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm">{error}</div>
-        )}
+        <div className="px-6 py-8 lg:px-10 lg:py-10">
+          <button
+            onClick={() => { setStep("pick"); setSelectedSlot(null) }}
+            className="mb-6 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted hover:text-ink"
+          >
+            <ChevronLeft className="h-3 w-3" /> Pick a different time
+          </button>
 
-        {step === "date" && (
-          <div className="space-y-4">
-            {/* Month Navigation */}
-            <div className="flex items-center justify-between">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigateMonth("prev")}
-                disabled={currentMonth === today.getMonth() && currentYear === today.getFullYear()}
+          {error && (
+            <div className="mb-6 border border-red-300 bg-red-50 px-4 py-3 text-[13px] text-red-800">{error}</div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-8 flex items-baseline justify-between border-b border-ink/10 pb-4">
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">Booking</div>
+                <p className="display text-[22px] text-ink lg:text-[28px]">{formattedSelectedDate}</p>
+                <p className="mt-1 text-[15px] text-ink-soft">
+                  <span className="num">{formatTimeInZone(selectedSlot.slot.iso, tz)}</span>{" "}
+                  <span className="text-ink-muted">{tzShort}</span> · 30 min
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-12 gap-x-6 gap-y-6">
+              <Field label="Full name" required className="col-span-12 md:col-span-6">
+                <input required value={formData.name || ""} onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))} className={fieldInputClass} />
+              </Field>
+              <Field label="Email" required className="col-span-12 md:col-span-6">
+                <input type="email" required value={formData.email || ""} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} className={fieldInputClass} />
+              </Field>
+              <Field label="Company / brokerage" className="col-span-12 md:col-span-6">
+                <input value={formData.company || ""} onChange={(e) => setFormData((p) => ({ ...p, company: e.target.value }))} className={fieldInputClass} />
+              </Field>
+              <Field label="Phone" className="col-span-12 md:col-span-6">
+                <input type="tel" value={formData.phone || ""} onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))} className={fieldInputClass} />
+              </Field>
+              <Field label="What would you like to discuss?" className="col-span-12">
+                <textarea rows={4} value={formData.notes || ""} onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))} className={`${fieldInputClass} resize-none`} />
+              </Field>
+            </div>
+
+            <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
+              <button
+                type="submit"
+                disabled={submitLoading}
+                className="group inline-flex items-center gap-3 bg-ink px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand disabled:opacity-50"
               >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <h3 className="font-semibold">
-                {MONTHS[currentMonth]} {currentYear}
-              </h3>
-              <Button variant="ghost" size="sm" onClick={() => navigateMonth("next")}>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
+                <span>{submitLoading ? "Booking…" : "Confirm booking"}</span>
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </button>
             </div>
-
-            {/* Calendar Grid */}
-            <div className="grid grid-cols-7 gap-1">
-              {DAYS.map((day) => (
-                <div key={day} className="text-center text-sm font-medium text-slate-500 p-2">
-                  {day}
-                </div>
-              ))}
-              {calendarDays.map((date, index) => (
-                <div key={index} className="aspect-square">
-                  {date && (
-                    <Button
-                      variant={selectedDate?.toDateString() === date.toDateString() ? "default" : "ghost"}
-                      size="sm"
-                      className="w-full h-full"
-                      disabled={!isDateAvailable(date)}
-                      onClick={() => selectDate(date)}
-                    >
-                      {date.getDate()}
-                    </Button>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === "time" && (
-          <div className="space-y-4">
-            <div className="text-center">
-              <p className="font-medium">{selectedDate?.toLocaleDateString()}</p>
-              <p className="text-sm text-slate-600">Select a time slot</p>
-            </div>
-
-            {loading ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="text-sm text-slate-600 mt-2">Loading available times...</p>
-              </div>
-            ) : availableSlots.length > 0 ? (
-              <div className="grid grid-cols-2 gap-2">
-                {availableSlots.map((time) => (
-                  <Button
-                    key={time}
-                    variant="outline"
-                    size="sm"
-                    onClick={() => selectTime(time)}
-                    className="flex items-center gap-2"
-                  >
-                    <Clock className="h-4 w-4" />
-                    {formatTimeSlot(time)}
-                  </Button>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-slate-600">No available time slots for this date.</p>
-                <Button variant="ghost" onClick={() => setStep("date")} className="mt-2">
-                  Choose another date
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {step === "form" && (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="text-center mb-4">
-              <p className="font-medium">{selectedDate?.toLocaleDateString()}</p>
-              <p className="text-sm text-slate-600">{selectedTime && formatTimeSlot(selectedTime)} (30 minutes)</p>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="name" className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
-                  Full Name *
-                </Label>
-                <Input
-                  id="name"
-                  required
-                  value={formData.name || ""}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="email" className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  Email Address *
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  value={formData.email || ""}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="company" className="flex items-center gap-2">
-                  <Building className="h-4 w-4" />
-                  Company/Brokerage
-                </Label>
-                <Input
-                  id="company"
-                  value={formData.company || ""}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="phone" className="flex items-center gap-2">
-                  <Phone className="h-4 w-4" />
-                  Phone Number
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone || ""}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="notes">Additional Notes</Label>
-                <Textarea
-                  id="notes"
-                  placeholder="Tell us about your current challenges or what you'd like to discuss..."
-                  value={formData.notes || ""}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, notes: e.target.value }))}
-                />
-              </div>
-            </div>
-
-            <Button type="submit" className="w-full" disabled={submitLoading}>
-              {submitLoading ? "Scheduling..." : "Confirm Booking"}
-            </Button>
           </form>
+        </div>
+      </div>
+    )
+  }
+
+  // Pick step — week view
+  return (
+    <div className="border border-ink/15 bg-paper">
+      <div className="flex items-baseline justify-between border-b border-ink/15 px-6 py-4">
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand">№ 01 / Pick a time</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
+          Times in <span className="text-ink">{tzShort}</span> · {tz}
+        </span>
+      </div>
+
+      <div className="border-b border-ink/15 px-6 py-4 lg:px-10">
+        <div className="flex items-center justify-between gap-4">
+          <button
+            onClick={() => setWeekStart(addDays(weekStart, -7))}
+            disabled={!canGoPrev}
+            className="inline-flex items-center gap-2 border border-ink/15 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.22em] text-ink hover:bg-paper-dim disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            <ChevronLeft className="h-3 w-3" /> Prev week
+          </button>
+          <div className="text-center">
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">Week of</div>
+            <div className="display text-[20px] text-ink lg:text-[24px]">{weekRangeLabel}</div>
+          </div>
+          <button
+            onClick={() => setWeekStart(addDays(weekStart, 7))}
+            className="inline-flex items-center gap-2 border border-ink/15 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.22em] text-ink hover:bg-paper-dim"
+          >
+            Next week <ChevronRight className="h-3 w-3" />
+          </button>
+        </div>
+      </div>
+
+      <div className="px-6 py-6 lg:px-10 lg:py-8">
+        {error && (
+          <div className="mb-6 border border-red-300 bg-red-50 px-4 py-3 text-[13px] text-red-800">{error}</div>
         )}
-      </CardContent>
-    </Card>
+
+        {loading ? (
+          <div className="py-16 text-center">
+            <div className="mx-auto h-px w-24 animate-pulse bg-ink" />
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">Loading availability…</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-7 gap-px border border-ink/10 bg-ink/10">
+            {days.map((day) => {
+              const d = parseDateString(day.date)
+              const isToday = d.toDateString() === new Date().toDateString()
+              const isPast = d.getTime() < today.getTime()
+              return (
+                <div key={day.date} className="flex flex-col bg-paper">
+                  <div className={`border-b border-ink/10 px-2 py-2 text-center ${isToday ? "bg-paper-dim" : ""}`}>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
+                      {DAY_NAMES[d.getDay()]}
+                    </div>
+                    <div className="num display text-[20px] text-ink">{d.getDate()}</div>
+                    {isToday && (
+                      <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-brand">Today</div>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-px overflow-y-auto p-1.5" style={{ maxHeight: "420px" }}>
+                    {isPast ? (
+                      <div className="py-6 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft-2">—</div>
+                    ) : day.slots.length === 0 ? (
+                      <div className="py-6 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft-2">
+                        None
+                      </div>
+                    ) : (
+                      day.slots.map((slot) => (
+                        <button
+                          key={slot.iso}
+                          onClick={() => pickSlot(day.date, slot)}
+                          className="num border border-transparent px-1 py-1.5 text-center text-[12px] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+                        >
+                          {formatTimeInZone(slot.iso, tz)}
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function Detail({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex items-baseline justify-between py-2">
+      <dt className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">{label}</dt>
+      <dd className="text-ink">{value}</dd>
+    </div>
+  )
+}
+
+const fieldInputClass =
+  "w-full border-0 border-b border-ink/30 bg-transparent px-0 py-2 text-[16px] text-ink placeholder:text-ink-soft-2 focus:border-ink focus:outline-none"
+
+function Field({
+  label,
+  required,
+  className,
+  children,
+}: {
+  label: string
+  required?: boolean
+  className?: string
+  children: React.ReactNode
+}) {
+  return (
+    <label className={className}>
+      <span className="block font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
+        {label} {required && <span className="text-brand">*</span>}
+      </span>
+      <span className="mt-1 block">{children}</span>
+    </label>
   )
 }

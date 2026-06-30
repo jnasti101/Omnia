@@ -33,7 +33,7 @@ export function EditorialNav() {
           <span className="hidden md:inline">A Studio for Real Estate Operating Software</span>
           <span className="md:hidden">Omnia Solutions · Vol. 01</span>
           <a
-            href="https://cal.com/omnia-solutions/discovery-call"
+            href="/schedule"
             target="_blank"
             rel="noopener noreferrer"
             className="ink-link text-ink"
@@ -82,7 +82,7 @@ export function EditorialNav() {
         </nav>
 
         <a
-          href="https://cal.com/omnia-solutions/discovery-call"
+          href="/schedule"
           target="_blank"
           rel="noopener noreferrer"
           className="group hidden items-center gap-2 bg-ink px-4 py-2.5 text-[12px] font-medium uppercase tracking-[0.18em] text-paper transition-all hover:bg-brand md:inline-flex"
@@ -93,7 +93,7 @@ export function EditorialNav() {
 
         {/* Mobile CTA */}
         <a
-          href="https://cal.com/omnia-solutions/discovery-call"
+          href="/schedule"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-ink px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-paper md:hidden"

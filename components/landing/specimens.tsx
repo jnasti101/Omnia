@@ -224,7 +224,7 @@ export function Specimens() {
             Want a plate drafted for your firm?
           </p>
           <a
-            href="https://cal.com/omnia-solutions/discovery-call"
+            href="/schedule"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 bg-brand px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand-bright"

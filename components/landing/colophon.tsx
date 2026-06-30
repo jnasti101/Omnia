@@ -120,7 +120,7 @@ export function Colophon() {
               Terms
             </a>
             <a
-              href="https://cal.com/omnia-solutions/discovery-call"
+              href="/schedule"
               target="_blank"
               rel="noopener noreferrer"
               className="ink-link text-brand-bright"
