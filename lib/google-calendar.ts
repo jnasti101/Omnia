@@ -86,6 +86,11 @@ export async function getAvailableSlotsRange(startDateStr: string, days: number)
   for (let i = 0; i < days; i++) {
     const date = addDays(startDateStr, i)
     const slots: AvailableSlot[] = []
+    const dayOfWeek = new Date(date + "T00:00:00").getDay()
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      result.push({ date, slots })
+      continue
+    }
     for (let h = WORK_START_HOUR; h < WORK_END_HOUR; h++) {
       for (let m = 0; m < 60; m += SLOT_MINUTES) {
         const slotStart = dateAtHourInZone(date, h, m)
