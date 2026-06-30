@@ -342,11 +342,11 @@ export function CalendarWidget() {
                       <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-brand">Today</div>
                     )}
                   </div>
-                  <div className="flex flex-col gap-px overflow-y-auto p-1.5" style={{ maxHeight: "420px" }}>
+                  <div className="flex flex-col gap-px overflow-y-auto p-2" style={{ maxHeight: "480px" }}>
                     {isPast ? (
-                      <div className="py-6 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft-2">—</div>
+                      <div className="py-10 text-center font-mono text-[12px] uppercase tracking-[0.22em] text-ink-soft-2">—</div>
                     ) : day.slots.length === 0 ? (
-                      <div className="py-6 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft-2">
+                      <div className="py-10 text-center font-mono text-[12px] uppercase tracking-[0.22em] text-ink-soft-2">
                         None
                       </div>
                     ) : (
@@ -354,7 +354,7 @@ export function CalendarWidget() {
                         <button
                           key={slot.iso}
                           onClick={() => pickSlot(day.date, slot)}
-                          className="num border border-transparent px-1 py-1.5 text-center text-[12px] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+                          className="num border border-transparent px-2 py-2.5 text-center text-[15px] font-medium text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
                         >
                           {formatTimeInZone(slot.iso, tz)}
                         </button>
