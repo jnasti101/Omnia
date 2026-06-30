@@ -11,6 +11,8 @@ type IcsInput = {
   organizerName: string
   attendeeEmail: string
   attendeeName: string
+  location?: string
+  url?: string
 }
 
 function icsEscape(str: string): string {
@@ -36,13 +38,15 @@ export function buildIcs(input: IcsInput): string {
     `DTEND:${icsDate(input.end)}`,
     `SUMMARY:${icsEscape(input.summary)}`,
     `DESCRIPTION:${icsEscape(input.description)}`,
+    input.location ? `LOCATION:${icsEscape(input.location)}` : null,
+    input.url ? `URL:${input.url}` : null,
     `ORGANIZER;CN=${icsEscape(input.organizerName)}:mailto:${input.organizerEmail}`,
     `ATTENDEE;CN=${icsEscape(input.attendeeName)};RSVP=TRUE:mailto:${input.attendeeEmail}`,
     "STATUS:CONFIRMED",
     "SEQUENCE:0",
     "END:VEVENT",
     "END:VCALENDAR",
-  ]
+  ].filter(Boolean)
   return lines.join("\r\n")
 }
 
@@ -68,6 +72,7 @@ type SendBookingEmailsInput = {
   start: Date
   end: Date
   eventId: string
+  meetLink?: string | null
 }
 
 export async function sendBookingEmails(input: SendBookingEmailsInput) {
@@ -84,6 +89,7 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
 
   const whenStr = formatLocal(input.start)
   const summary = `Discovery Call: Omnia × ${input.visitorName}`
+  const meetLink = input.meetLink || null
   const description = [
     "Thanks for booking a discovery call with Omnia.",
     "",
@@ -93,6 +99,7 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
       minute: "2-digit",
     }).format(input.end)}`,
     "Duration: 30 minutes",
+    meetLink ? `\nJoin Google Meet: ${meetLink}` : "",
     input.visitorNotes ? `\nYour notes:\n${input.visitorNotes}` : "",
   ].filter(Boolean).join("\n")
 
@@ -106,12 +113,21 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
     organizerName,
     attendeeEmail: input.visitorEmail,
     attendeeName: input.visitorName,
+    location: meetLink || undefined,
+    url: meetLink || undefined,
   })
 
   const icsAttachment = {
     filename: "invite.ics",
     content: Buffer.from(ics).toString("base64"),
   }
+
+  const meetBlockVisitor = meetLink
+    ? `<div style="margin: 16px 0;">
+        <a href="${meetLink}" style="display: inline-block; background: #0a1a33; color: #f6f4ee; text-decoration: none; padding: 12px 20px; font-size: 14px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;">Join Google Meet →</a>
+        <p style="margin: 8px 0 0; font-size: 12px; color: #64748b; word-break: break-all;">${escapeHtml(meetLink)}</p>
+      </div>`
+    : ""
 
   const visitorHtml = `
     <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 560px; margin: 0 auto; color: #0f172a;">
@@ -121,8 +137,9 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">
         <p style="margin: 0 0 8px;"><strong>When:</strong> ${escapeHtml(whenStr)}</p>
         <p style="margin: 0 0 8px;"><strong>Duration:</strong> 30 minutes</p>
-        <p style="margin: 0;"><strong>Format:</strong> Video call (link to follow)</p>
+        <p style="margin: 0;"><strong>Format:</strong> Google Meet (link below)</p>
       </div>
+      ${meetBlockVisitor}
       <p>If you need to reschedule, just reply to this email.</p>
       <p style="color: #64748b; font-size: 13px; margin-top: 32px;">— ${escapeHtml(organizerName)}</p>
     </div>
@@ -137,11 +154,16 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
   })
 
   if (notifyEmail) {
+    const meetBlockNotify = meetLink
+      ? `<p style="margin: 0 0 8px;"><strong>Meet:</strong> <a href="${meetLink}">${escapeHtml(meetLink)}</a></p>`
+      : ""
     const notifyHtml = `
       <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 560px; margin: 0 auto; color: #0f172a;">
         <h2 style="margin: 0 0 16px;">New booking</h2>
+        <p style="color: #64748b; margin: 0 0 16px; font-size: 13px;">The event is on your Google Calendar — no need to accept.</p>
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;">
           <p style="margin: 0 0 8px;"><strong>When:</strong> ${escapeHtml(whenStr)}</p>
+          ${meetBlockNotify}
           <p style="margin: 0 0 8px;"><strong>Name:</strong> ${escapeHtml(input.visitorName)}</p>
           <p style="margin: 0 0 8px;"><strong>Email:</strong> ${escapeHtml(input.visitorEmail)}</p>
           ${input.visitorCompany ? `<p style="margin: 0 0 8px;"><strong>Company:</strong> ${escapeHtml(input.visitorCompany)}</p>` : ""}
@@ -155,7 +177,6 @@ export async function sendBookingEmails(input: SendBookingEmailsInput) {
       to: notifyEmail,
       subject: `New booking: ${input.visitorName} — ${whenStr}`,
       html: notifyHtml,
-      attachments: [icsAttachment],
     })
   }
 }

@@ -134,6 +134,7 @@ export async function createBookingEvent(input: CreateBookingInput) {
   const { data } = await cal.events.insert({
     calendarId,
     sendUpdates: "none",
+    conferenceDataVersion: 1,
     requestBody: {
       summary: `Discovery Call: Omnia × ${input.name}`,
       description: descriptionLines.join("\n"),
@@ -141,8 +142,20 @@ export async function createBookingEvent(input: CreateBookingInput) {
       end: { dateTime: end.toISOString(), timeZone: TIMEZONE },
       attendees: [{ email: input.email, displayName: input.name }],
       reminders: { useDefault: true },
+      conferenceData: {
+        createRequest: {
+          requestId: `omnia-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+          conferenceSolutionKey: { type: "hangoutsMeet" },
+        },
+      },
     },
   })
 
-  return { eventId: data.id, htmlLink: data.htmlLink, start, end }
+  return {
+    eventId: data.id,
+    htmlLink: data.htmlLink,
+    start,
+    end,
+    meetLink: data.hangoutLink ?? null,
+  }
 }

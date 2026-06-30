@@ -59,6 +59,7 @@ export async function POST(request: Request) {
         start: result.start,
         end: result.end,
         eventId: result.eventId ?? `${date}-${time}`,
+        meetLink: result.meetLink,
       })
     } catch (emailErr) {
       console.error("[book] email send failed (event was created)", emailErr)
