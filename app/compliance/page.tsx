@@ -1,7 +1,5 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ComplianceDashboard } from "@/components/demos/compliance-dashboard"
-import { DemoPreview } from "@/components/demos/demo-preview"
 import { CalendarWidget } from "@/components/calendar-widget"
 
 export const metadata: Metadata = {
@@ -12,11 +10,12 @@ export const metadata: Metadata = {
 
 const watchedItems = [
   "Annual recertifications",
-  "Inspection due dates",
+  "Parapet observation reports",
+  "HPD registrations",
+  "FISP deadlines",
   "Document expirations",
   "Audit packets",
   "Fair-housing files",
-  "Recertification letters",
   "Nightly status checks",
 ]
 
@@ -48,6 +47,59 @@ const automations = [
   },
 ]
 
+const examples = [
+  {
+    roman: "I",
+    tag: "Local Law 126 · Annual",
+    title: "Parapet inspections",
+    byHand:
+      "Someone walks the roof, the photos sit in a phone, and the observation report gets written weeks later — then has to be findable for six years.",
+    automated:
+      "Field notes and photos become a formatted observation report the same day, archived against the six-year retention rule, with next year's walk already scheduled.",
+    roi: "Hours of drafting per building → minutes. The archive keeps itself.",
+  },
+  {
+    roman: "II",
+    tag: "Every agency · Ongoing",
+    title: "Report generation & filing",
+    byHand:
+      "Inspection findings get re-typed into templates, formatted by hand, uploaded to the right portal, and the stamped copy saved — by whoever has time.",
+    automated:
+      "Reports drafted from field notes in your format, routed for sign-off, filed to the right agency, and the confirmation archived automatically.",
+    roi: "A twenty-report month back in about a day of staff time.",
+  },
+  {
+    roman: "III",
+    tag: "HPD · Annual + nightly",
+    title: "HPD filings & violations",
+    byHand:
+      "Annual property registration lives on someone's calendar. New violations get discovered when a certified letter shows up.",
+    automated:
+      "Registrations assembled from your ownership data and filed on time. HPD checked nightly — new violations routed to the right manager with certification deadlines tracked.",
+    roi: "A lapsed registration blocks you from Housing Court. This one never lapses.",
+  },
+  {
+    roman: "IV",
+    tag: "FISP / Local Law 11 · 5-year cycle",
+    title: "Facade filing windows",
+    byHand:
+      "Sub-cycle windows are years apart — long enough for the deadline to live in nobody's head until it's expensive.",
+    automated:
+      "Cycle and sub-cycle windows tracked per building, engineers engaged early, filings prepared and submitted inside the window.",
+    roi: "Late filings run $1,000 a month, per building. Avoided by default.",
+  },
+  {
+    roman: "V",
+    tag: "LL152 · LL84 · Boilers · Elevators",
+    title: "The rest of the calendar",
+    byHand:
+      "Gas piping certifications, benchmarking submissions, boiler and elevator inspections — each with its own portal, cadence, and penalty schedule.",
+    automated:
+      "Every recurring obligation in one system, statuses checked nightly, the right person pinged before anything lapses.",
+    roi: "Missed gas piping certification: up to $10,000. Missed benchmarking: $500 a quarter. The system forgets neither.",
+  },
+]
+
 const steps = [
   {
     id: "01",
@@ -68,7 +120,7 @@ const steps = [
 
 const contents = [
   { id: "01", label: "What gets automated", anchor: "#automated" },
-  { id: "02", label: "The live specimen", anchor: "#specimen" },
+  { id: "02", label: "Worked examples & ROI", anchor: "#examples" },
   { id: "03", label: "How engagements run", anchor: "#process" },
   { id: "04", label: "Book a call", anchor: "#book" },
 ]
@@ -174,10 +226,10 @@ export default function CompliancePage() {
               </span>
             </a>
             <a
-              href="#specimen"
+              href="#examples"
               className="group inline-flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.18em] text-ink"
             >
-              <span className="ink-link">Or, study the live specimen</span>
+              <span className="ink-link">Or, study the worked examples</span>
               <span className="transition-transform group-hover:translate-y-0.5">
                 ↓
               </span>
@@ -255,9 +307,9 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      {/* Live specimen */}
+      {/* Worked examples & ROI */}
       <section
-        id="specimen"
+        id="examples"
         className="relative overflow-hidden border-b border-midnight-rule bg-midnight midnight-texture"
       >
         <div className="absolute inset-0 grid-lines-dark opacity-60" aria-hidden />
@@ -269,68 +321,121 @@ export default function CompliancePage() {
             </span>
             <span className="h-px flex-1 bg-midnight-rule" />
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/50">
-              Plate V — Live
+              Exhibits I — V
             </span>
           </div>
 
           <div className="grid grid-cols-12 gap-6 lg:gap-8">
             <div className="col-span-12 lg:col-span-7">
               <h2 className="display text-[44px] leading-[0.95] text-paper md:text-[64px] lg:text-[84px]">
-                The compliance desk,{" "}
+                Specific filings,{" "}
                 <span className="display-thin text-brand-bright">
-                  under glass.
+                  specific returns.
                 </span>
               </h2>
             </div>
             <div className="col-span-12 lg:col-span-4 lg:col-start-9">
               <p className="mt-2 max-w-[42ch] text-[14.5px] leading-[1.6] text-paper/65 lg:mt-6">
-                A working compliance tracker — certifications, inspections, and
-                expirations across a small portfolio. It&apos;s live; click
-                around.
+                Not abstractions — the actual obligations on a New York
+                operator&apos;s calendar, and what each one returns when the
+                system does the work.
               </p>
             </div>
           </div>
 
-          <div className="relative mt-10 border border-paper/15 bg-midnight-dim p-3 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] sm:p-5 lg:mt-14">
-            <span className="absolute -left-2 -top-2 h-4 w-4 border-l border-t border-brand-bright" />
-            <span className="absolute -right-2 -top-2 h-4 w-4 border-r border-t border-brand-bright" />
-            <span className="absolute -bottom-2 -left-2 h-4 w-4 border-b border-l border-brand-bright" />
-            <span className="absolute -bottom-2 -right-2 h-4 w-4 border-b border-r border-brand-bright" />
+          {/* Exhibit ledger */}
+          <div className="mt-12 border-t border-midnight-rule lg:mt-16">
+            {examples.map((ex) => (
+              <article
+                key={ex.roman}
+                className="grid grid-cols-12 gap-x-6 gap-y-4 border-b border-midnight-rule py-8 lg:gap-x-8 lg:py-10"
+              >
+                <div className="col-span-12 lg:col-span-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/45">
+                    Exhibit {ex.roman} · {ex.tag}
+                  </span>
+                  <h3 className="display mt-2 text-[26px] leading-[1.05] text-paper md:text-[32px]">
+                    {ex.title}
+                  </h3>
+                </div>
 
-            <div className="mb-3 flex items-center justify-between border-b border-paper/10 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-paper/45 sm:mb-4 sm:pb-3">
-              <span>Spec. V · Compliance</span>
-              <span className="hidden sm:inline">
-                Drafted for a 160-unit portfolio
-              </span>
-              <span className="text-brand-bright">● Live</span>
-            </div>
+                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/45">
+                    By hand
+                  </div>
+                  <p className="mt-2 text-[14px] leading-[1.6] text-paper/60">
+                    {ex.byHand}
+                  </p>
+                </div>
 
-            <div className="block md:hidden">
-              <DemoPreview demoId="compliance" />
-            </div>
+                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand-bright">
+                    Automated
+                  </div>
+                  <p className="mt-2 text-[14px] leading-[1.6] text-paper/80">
+                    {ex.automated}
+                  </p>
+                </div>
 
-            <div className="hidden md:block">
-              <ComplianceDashboard />
-            </div>
+                <div className="col-span-12 lg:col-span-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/45">
+                    The return
+                  </div>
+                  <p className="mt-2 text-[14.5px] font-medium italic leading-[1.55] text-paper">
+                    {ex.roi}
+                  </p>
+                </div>
+              </article>
+            ))}
           </div>
 
-          <div className="mt-5 grid grid-cols-12 gap-4 lg:gap-8">
-            <div className="col-span-12 md:col-span-1">
+          {/* The arithmetic */}
+          <div className="mt-14 grid grid-cols-12 gap-6 lg:mt-20 lg:gap-8">
+            <div className="col-span-12 lg:col-span-4">
               <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand-bright">
-                Caption
+                The arithmetic
               </span>
+              <p className="mt-4 max-w-[46ch] text-[15px] leading-[1.65] text-paper/75">
+                A mid-size portfolio carries dozens of filings, reports, and
+                renewals a year, at hours of staff time each — a meaningful
+                slice of a salary spent re-typing things the system already
+                knows. That&apos;s before a single penalty. The system pays for
+                itself the first deadline it refuses to miss.
+              </p>
             </div>
-            <p className="col-span-12 max-w-[68ch] text-[14.5px] italic leading-[1.65] text-paper/75 md:col-span-11">
-              Every firm&apos;s compliance load is different — jurisdictions,
-              programs, inspection regimes. This plate shows the shape of the
-              thing. Yours is drafted around your rules, your properties, your
-              deadlines.
-            </p>
+
+            <div className="col-span-12 lg:col-span-7 lg:col-start-6">
+              <div className="grid grid-cols-1 gap-px border border-midnight-rule bg-midnight-rule sm:grid-cols-3">
+                {[
+                  {
+                    figure: "Hrs → min",
+                    label: "Per report or filing, drafted from data you already have",
+                  },
+                  {
+                    figure: "$1,000/mo",
+                    label: "A single late facade filing — one of many penalty clocks",
+                  },
+                  {
+                    figure: "365",
+                    label: "Nights a year every status gets re-checked. People take weekends; it doesn't",
+                  },
+                ].map((stat) => (
+                  <div key={stat.figure} className="bg-midnight p-6">
+                    <div className="display text-[34px] leading-none text-paper md:text-[40px]">
+                      {stat.figure}
+                    </div>
+                    <p className="mt-3 font-mono text-[10px] uppercase leading-[1.7] tracking-[0.16em] text-paper/55">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="mt-14 flex flex-col items-start justify-between gap-5 border-t border-midnight-rule pt-8 sm:flex-row sm:items-center">
-            <p className="max-w-[40ch] font-mono text-[11px] uppercase tracking-[0.18em] text-paper/55">
-              Want this drafted for your portfolio?
+            <p className="max-w-[44ch] font-mono text-[11px] uppercase tracking-[0.18em] text-paper/55">
+              Which of these is on your desk? Show us on a call.
             </p>
             <a
               href="#book"

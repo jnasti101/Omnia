@@ -16,7 +16,6 @@ import {
   Zap,
   BarChart3,
   Monitor,
-  Shield,
 } from "lucide-react"
 
 interface DemoPreviewProps {
@@ -71,23 +70,6 @@ const demoData = {
       { label: "Approval Rate", value: "78%", icon: CheckCircle2, trend: "+3%" },
     ],
     features: ["Document tracking", "Risk scoring", "Compliance automation", "Stage progression"],
-  },
-  "compliance": {
-    title: "Compliance Dashboard",
-    icon: Shield,
-    color: "green",
-    stats: [
-      { label: "Overall Compliance", value: "89.2%", icon: Shield, trend: "+2.1%" },
-      { label: "Action Required", value: "3", icon: AlertCircle, trend: "-2" },
-      { label: "Upcoming (30d)", value: "8", icon: Clock, trend: null },
-      { label: "Fully Compliant", value: "3/6", icon: CheckCircle2, trend: "+2" },
-    ],
-    features: [
-      "Deadline & expiration tracking",
-      "Auto-assembled audit packets",
-      "Recertification letters on schedule",
-      "Nightly status checks",
-    ],
   },
 }
 
