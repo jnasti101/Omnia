@@ -19,88 +19,71 @@ const gapsStrip = [
   "Source code handed over",
 ]
 
-const gaps = [
+const audiences = [
   {
     id: "01",
-    title: "The integration your vendors blame on each other",
-    body: "The CRM and the deal pipeline both work fine — they just don't talk. We build the bridge, so a deal gets entered once and lives everywhere it should.",
+    title: "Property managers",
+    body: "Maintenance and work-order systems, tenant communication, compliance desks — the operational tools that keep buildings running without the spreadsheet sprawl.",
   },
   {
     id: "02",
-    title: "The dashboard that pulls from three systems",
-    body: "Property management, accounting, and the spreadsheet nobody admits to. One view, refreshed before you sit down, no exports.",
+    title: "Asset managers",
+    body: "Portfolio analytics, NOI and IRR reporting, asset-by-asset drill-downs — the numbers in one place, the way the acquisitions team actually reads them.",
   },
   {
     id: "03",
-    title: "The internal tool no one sells",
-    body: "Every firm has a workflow that fits no vendor's box — approvals, handoffs, the thing tracked over email. We build the tool that owns it end to end.",
+    title: "Brokerages & sponsors",
+    body: "Deal pipelines built for how deals actually close, investor portals, distribution and performance reporting without the quarter-end scramble.",
   },
   {
     id: "04",
-    title: "The report that assembles itself",
-    body: "Investor packets, lender updates, the Monday numbers — drafted from data you already have, in your format, on schedule.",
-  },
-  {
-    id: "05",
-    title: "The spreadsheet that gets to retire",
-    body: "The load-bearing workbook with one owner and no version history becomes a small tool: same logic, real permissions, an audit trail.",
-  },
-  {
-    id: "06",
-    title: "The platform you'd build if you could",
-    body: "A complete system — leasing to renewals, acquisitions to asset management — designed around the way your firm actually operates, not the way a vendor assumed it would.",
+    title: "Lenders",
+    body: "Origination pipelines tied to document collection, condition tracking, and committee approval — from first call to funding.",
   },
 ]
 
-const punchList = [
+const ledger = [
   {
-    title: "CRM ↔ deal pipeline",
-    tag: "Two vendors, no bridge",
+    title: "Maintenance & tenancy system",
+    tag: "Property manager · 11 buildings",
     build:
-      "Two-way sync — deals entered once, stage changes pushed automatically, nothing re-typed.",
-    roi: "Hours a week back, per person",
+      "Live work-order queue, vacancy maps, and tenant communication threads — replaced three Slack channels and a spreadsheet.",
+    roi: "Delivered in 5 weeks",
   },
   {
-    title: "The morning dashboard",
-    tag: "PM + accounting + sheets",
+    title: "Portfolio analytics",
+    tag: "Asset manager · $183M AUM",
     build:
-      "One view pulling from all three, refreshed overnight, drillable to the source.",
-    roi: "The Monday report builds itself",
+      "Portfolio-level NOI, IRR, and occupancy at a glance, with drill-downs the acquisitions team opens every morning.",
+    roi: "Delivered in 6 weeks",
   },
   {
-    title: "Investor reporting",
-    tag: "Quarter-end",
+    title: "Deal pipeline",
+    tag: "Brokerage · 38 agents",
     build:
-      "Packets assembled from property and accounting data, branded, reviewed, sent.",
-    roi: "A week of quarter-end → an afternoon",
+      "A weighted pipeline with bottleneck detection, stage timing, and team leaderboards — designed around how deals actually close.",
+    roi: "Delivered in 4 weeks",
   },
   {
-    title: "Delinquency & rent roll",
-    tag: "Nightly",
+    title: "Loan origination system",
+    tag: "Lender · 240 loans / yr",
     build:
-      "Aging pulled nightly across systems; flags routed to the right manager with context.",
-    roi: "Slippage caught at day 3, not day 30",
+      "Pipeline tied to document collection, condition tracking, and committee approval — from first call to funding.",
+    roi: "Delivered in 7 weeks",
   },
   {
-    title: "The workflow no vendor owns",
-    tag: "Approvals & handoffs",
+    title: "Investor portal",
+    tag: "Real estate sponsor",
     build:
-      "An internal tool that owns it end to end — statuses, nudges, and a record of who did what.",
-    roi: "Nothing falls between systems",
+      "Portfolio value, quarterly distributions, and performance reporting — the numbers investors ask for, available the moment they ask.",
+    roi: "In production today",
   },
   {
-    title: "The load-bearing spreadsheet",
-    tag: "You know the one",
+    title: "Compliance automation",
+    tag: "NYC operators",
     build:
-      "Rebuilt as a small tool: same logic, real permissions, version history, no broken links.",
-    roi: "One bad paste no longer costs a day",
-  },
-  {
-    title: "Legacy exports",
-    tag: "The weekly CSV",
-    build:
-      "Ingested, normalized, and loaded automatically the moment it lands.",
-    roi: "Re-keying, eliminated",
+      "Filings drafted from source data, deadlines watched nightly, the right people notified before anything lapses.",
+    roi: "In production today",
   },
 ]
 
@@ -123,8 +106,8 @@ const steps = [
 ]
 
 const contents = [
-  { id: "01", label: "What we can build", anchor: "#gaps" },
-  { id: "02", label: "The punch list & ROI", anchor: "#punchlist" },
+  { id: "01", label: "The studio", anchor: "#studio" },
+  { id: "02", label: "What we've built", anchor: "#work" },
   { id: "03", label: "Risk-free, by design", anchor: "#process" },
   { id: "04", label: "Book a call", anchor: "#book" },
 ]
@@ -182,12 +165,12 @@ export default function CustomBuildPage() {
               </div>
             </div>
             <p className="col-span-12 max-w-[58ch] text-[17px] leading-[1.55] text-ink md:col-span-7 md:text-[19px]">
-              From the integration between your CRM and your deal pipeline to
-              a complete operating platform built around your firm —{" "}
-              <span className="font-semibold text-ink">Omnia</span> designs
-              and builds any tool a property manager or real estate operator
-              can describe. You see real, working results before you commit a
-              dollar. All it takes is a call.
+              <span className="font-semibold text-ink">Omnia</span> is a
+              small, focused team that has spent years building custom tools
+              and platforms for real estate businesses — and only real estate
+              businesses. If your firm can describe it, we can build it. You
+              see real, working results before you commit a dollar, and all
+              it takes is a call.
             </p>
 
             <aside className="col-span-12 md:col-span-4 md:col-start-9">
@@ -230,10 +213,10 @@ export default function CustomBuildPage() {
               </span>
             </a>
             <a
-              href="#punchlist"
+              href="#work"
               className="group inline-flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.18em] text-ink"
             >
-              <span className="ink-link">Or, read the punch list</span>
+              <span className="ink-link">Or, review the record</span>
               <span className="transition-transform group-hover:translate-y-0.5">
                 ↓
               </span>
@@ -256,9 +239,9 @@ export default function CustomBuildPage() {
         </div>
       </section>
 
-      {/* The gaps we fill */}
+      {/* The studio */}
       <section
-        id="gaps"
+        id="studio"
         className="relative overflow-hidden border-b border-ink/10 bg-paper paper-texture"
       >
         <div className="absolute inset-0 grid-lines opacity-50" aria-hidden />
@@ -270,39 +253,41 @@ export default function CustomBuildPage() {
             </span>
             <span className="h-px flex-1 bg-rule lg:max-w-[120px]" />
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-              What we can build
+              The studio
             </span>
           </div>
 
           <div className="grid grid-cols-12 gap-6 lg:gap-8">
             <div className="col-span-12 lg:col-span-5">
               <h2 className="display text-[44px] leading-[0.95] text-ink md:text-[64px] lg:text-[80px]">
-                If you can describe it,
+                A small team,
                 <br />
                 <span className="display-thin text-brand">
-                  we can build it.
+                  built for real estate.
                 </span>
               </h2>
               <p className="mt-6 max-w-[44ch] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
-                From a single integration to a complete operating platform —
-                purpose-built around how your firm actually works. The list
-                here is where firms often begin. It is not where we stop.
+                For years, Omnia has designed and built custom software for
+                real estate businesses — dashboards, integrations, investor
+                portals, complete operating platforms. Deliberately small,
+                deliberately focused: the people on your call are the people
+                who write the code, and the code is yours when it&apos;s done.
               </p>
             </div>
 
             <div className="col-span-12 lg:col-span-6 lg:col-start-7">
               <ul className="divide-y divide-ink/10 border-t border-ink">
-                {gaps.map((g) => (
-                  <li key={g.id} className="grid grid-cols-12 gap-4 py-6">
+                {audiences.map((a) => (
+                  <li key={a.id} className="grid grid-cols-12 gap-4 py-6">
                     <span className="col-span-2 font-mono text-[11px] text-ink-muted sm:col-span-1">
-                      {g.id}
+                      {a.id}
                     </span>
                     <div className="col-span-10 sm:col-span-11">
                       <h3 className="display text-[22px] leading-[1.1] text-ink md:text-[26px]">
-                        {g.title}
+                        {a.title}
                       </h3>
                       <p className="mt-2 max-w-[54ch] text-[14.5px] leading-[1.6] text-ink-muted">
-                        {g.body}
+                        {a.body}
                       </p>
                     </div>
                   </li>
@@ -313,9 +298,9 @@ export default function CustomBuildPage() {
         </div>
       </section>
 
-      {/* The punch list */}
+      {/* What we've built */}
       <section
-        id="punchlist"
+        id="work"
         className="relative overflow-hidden border-b border-midnight-rule bg-midnight midnight-texture"
       >
         <div className="absolute inset-0 grid-lines-dark opacity-60" aria-hidden />
@@ -327,34 +312,31 @@ export default function CustomBuildPage() {
             </span>
             <span className="h-px flex-1 bg-midnight-rule" />
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/60">
-              The punch list
+              From the ledger
             </span>
           </div>
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <h2 className="display text-[32px] leading-[1] text-paper md:text-[44px]">
-              Specific builds,{" "}
-              <span className="display-thin text-brand-bright">
-                specific returns.
-              </span>
+              Built for operators{" "}
+              <span className="display-thin text-brand-bright">like you.</span>
             </h2>
             <p className="max-w-[46ch] text-[13.5px] leading-[1.55] text-paper/70">
-              The builds we get asked for most — what each one replaces, and
-              what that&apos;s worth. If yours isn&apos;t listed, that&apos;s
-              precisely what the call is for.
+              A selection from years of building for real estate businesses —
+              what we delivered, for whom, and how quickly.
             </p>
           </div>
 
-          {/* Punch list table */}
+          {/* Ledger table */}
           <div className="mt-8">
             <div className="hidden grid-cols-12 gap-x-6 border-b border-paper/25 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-paper/60 md:grid">
-              <span className="col-span-3">The gap</span>
-              <span className="col-span-6">What we build</span>
-              <span className="col-span-3">The return</span>
+              <span className="col-span-3">The build</span>
+              <span className="col-span-6">What it does</span>
+              <span className="col-span-3">The record</span>
             </div>
 
             <ul className="divide-y divide-midnight-rule border-b border-midnight-rule">
-              {punchList.map((p) => (
+              {ledger.map((p) => (
                 <li
                   key={p.title}
                   className="grid grid-cols-12 gap-x-6 gap-y-1.5 py-3.5 md:py-3"
@@ -378,17 +360,15 @@ export default function CustomBuildPage() {
             </ul>
           </div>
 
-          {/* Arithmetic footnote + CTA */}
+          {/* Pattern footnote + CTA */}
           <div className="mt-8 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <p className="max-w-[72ch] text-[13px] leading-[1.6] text-paper/70">
               <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-brand-bright">
-                The arithmetic —{" "}
+                The pattern —{" "}
               </span>
-              count the hours your team spends moving data between systems
-              that don&apos;t talk. Three people at five hours a week is a
-              part-time salary, spent re-typing. A build that erases it pays
-              for itself inside a quarter — and you own the code when
-              it&apos;s done.
+              every one of these began the same way: a thirty-minute
+              conversation, then a working prototype inside a week. What it
+              becomes from there is up to you. Yours starts the same way.
             </p>
             <a
               href="#book"
