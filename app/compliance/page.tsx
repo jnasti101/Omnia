@@ -47,56 +47,60 @@ const automations = [
   },
 ]
 
-const examples = [
+const docket = [
   {
-    roman: "I",
-    tag: "Local Law 126 · Annual",
-    title: "Parapet inspections",
-    byHand:
-      "Someone walks the roof, the photos sit in a phone, and the observation report gets written weeks later — then has to be findable for six years.",
+    title: "Parapet reports",
+    tag: "LL126 · annual",
     automated:
-      "Field notes and photos become a formatted observation report the same day, archived against the six-year retention rule, with next year's walk already scheduled.",
-    roi: "Hours of drafting per building → minutes. The archive keeps itself.",
+      "Field notes & photos become a formatted observation report the same day, archived for the six-year rule, next walk scheduled.",
+    roi: "~4 hrs of drafting → minutes, per building",
   },
   {
-    roman: "II",
-    tag: "Every agency · Ongoing",
-    title: "Report generation & filing",
-    byHand:
-      "Inspection findings get re-typed into templates, formatted by hand, uploaded to the right portal, and the stamped copy saved — by whoever has time.",
+    title: "Inspection reports & filing",
+    tag: "Every agency",
     automated:
-      "Reports drafted from field notes in your format, routed for sign-off, filed to the right agency, and the confirmation archived automatically.",
-    roi: "A twenty-report month back in about a day of staff time.",
+      "Drafted from field notes in your format, routed for sign-off, filed to the right portal, confirmation archived.",
+    roi: "A 20-report month back in ~a day",
   },
   {
-    roman: "III",
-    tag: "HPD · Annual + nightly",
-    title: "HPD filings & violations",
-    byHand:
-      "Annual property registration lives on someone's calendar. New violations get discovered when a certified letter shows up.",
+    title: "HPD registration",
+    tag: "Annual",
     automated:
-      "Registrations assembled from your ownership data and filed on time. HPD checked nightly — new violations routed to the right manager with certification deadlines tracked.",
-    roi: "A lapsed registration blocks you from Housing Court. This one never lapses.",
+      "Assembled from your ownership data and filed on time, every year.",
+    roi: "A lapse blocks Housing Court. Never lapses",
   },
   {
-    roman: "IV",
-    tag: "FISP / Local Law 11 · 5-year cycle",
-    title: "Facade filing windows",
-    byHand:
-      "Sub-cycle windows are years apart — long enough for the deadline to live in nobody's head until it's expensive.",
+    title: "HPD / DOB violations",
+    tag: "Nightly",
     automated:
-      "Cycle and sub-cycle windows tracked per building, engineers engaged early, filings prepared and submitted inside the window.",
-    roi: "Late filings run $1,000 a month, per building. Avoided by default.",
+      "Portals checked overnight; new violations routed to the right manager with cure deadlines tracked.",
+    roi: "Found overnight — not by certified mail",
   },
   {
-    roman: "V",
-    tag: "LL152 · LL84 · Boilers · Elevators",
-    title: "The rest of the calendar",
-    byHand:
-      "Gas piping certifications, benchmarking submissions, boiler and elevator inspections — each with its own portal, cadence, and penalty schedule.",
+    title: "Facade filings",
+    tag: "FISP / LL11",
     automated:
-      "Every recurring obligation in one system, statuses checked nightly, the right person pinged before anything lapses.",
-    roi: "Missed gas piping certification: up to $10,000. Missed benchmarking: $500 a quarter. The system forgets neither.",
+      "Sub-cycle windows tracked per building; engineers engaged early, filings submitted inside the window.",
+    roi: "$1,000/mo late penalty, avoided",
+  },
+  {
+    title: "Gas piping certifications",
+    tag: "LL152",
+    automated: "Due dates watched by building; certifications filed on schedule.",
+    roi: "Up to $10,000 per missed filing",
+  },
+  {
+    title: "Benchmarking",
+    tag: "LL84 / LL133",
+    automated: "Usage data compiled and submitted every cycle.",
+    roi: "$500/quarter penalties, avoided",
+  },
+  {
+    title: "Recerts & audit packets",
+    tag: "Ongoing",
+    automated:
+      "Recertification letters generated on schedule; audit packets assembled from source data on demand.",
+    roi: "Audit prep: days → minutes",
   },
 ]
 
@@ -314,132 +318,78 @@ export default function CompliancePage() {
       >
         <div className="absolute inset-0 grid-lines-dark opacity-60" aria-hidden />
 
-        <div className="relative mx-auto max-w-[1400px] px-5 py-16 lg:px-10 lg:py-24">
-          <div className="mb-10 flex items-center gap-3 lg:mb-14">
+        <div className="relative mx-auto max-w-[1400px] px-5 py-12 lg:px-10 lg:py-16">
+          <div className="mb-8 flex items-center gap-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand-bright">
               § 02
             </span>
             <span className="h-px flex-1 bg-midnight-rule" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/50">
-              Exhibits I — V
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/60">
+              The docket
             </span>
           </div>
 
-          <div className="grid grid-cols-12 gap-6 lg:gap-8">
-            <div className="col-span-12 lg:col-span-7">
-              <h2 className="display text-[44px] leading-[0.95] text-paper md:text-[64px] lg:text-[84px]">
-                Specific filings,{" "}
-                <span className="display-thin text-brand-bright">
-                  specific returns.
-                </span>
-              </h2>
-            </div>
-            <div className="col-span-12 lg:col-span-4 lg:col-start-9">
-              <p className="mt-2 max-w-[42ch] text-[14.5px] leading-[1.6] text-paper/65 lg:mt-6">
-                Not abstractions — the actual obligations on a New York
-                operator&apos;s calendar, and what each one returns when the
-                system does the work.
-              </p>
-            </div>
-          </div>
-
-          {/* Exhibit ledger */}
-          <div className="mt-12 border-t border-midnight-rule lg:mt-16">
-            {examples.map((ex) => (
-              <article
-                key={ex.roman}
-                className="grid grid-cols-12 gap-x-6 gap-y-4 border-b border-midnight-rule py-8 lg:gap-x-8 lg:py-10"
-              >
-                <div className="col-span-12 lg:col-span-3">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/45">
-                    Exhibit {ex.roman} · {ex.tag}
-                  </span>
-                  <h3 className="display mt-2 text-[26px] leading-[1.05] text-paper md:text-[32px]">
-                    {ex.title}
-                  </h3>
-                </div>
-
-                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/45">
-                    By hand
-                  </div>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-paper/60">
-                    {ex.byHand}
-                  </p>
-                </div>
-
-                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand-bright">
-                    Automated
-                  </div>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-paper/80">
-                    {ex.automated}
-                  </p>
-                </div>
-
-                <div className="col-span-12 lg:col-span-3">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper/45">
-                    The return
-                  </div>
-                  <p className="mt-2 text-[14.5px] font-medium italic leading-[1.55] text-paper">
-                    {ex.roi}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          {/* The arithmetic */}
-          <div className="mt-14 grid grid-cols-12 gap-6 lg:mt-20 lg:gap-8">
-            <div className="col-span-12 lg:col-span-4">
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand-bright">
-                The arithmetic
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <h2 className="display text-[32px] leading-[1] text-paper md:text-[44px]">
+              Specific filings,{" "}
+              <span className="display-thin text-brand-bright">
+                specific returns.
               </span>
-              <p className="mt-4 max-w-[46ch] text-[15px] leading-[1.65] text-paper/75">
-                A mid-size portfolio carries dozens of filings, reports, and
-                renewals a year, at hours of staff time each — a meaningful
-                slice of a salary spent re-typing things the system already
-                knows. That&apos;s before a single penalty. The system pays for
-                itself the first deadline it refuses to miss.
-              </p>
-            </div>
-
-            <div className="col-span-12 lg:col-span-7 lg:col-start-6">
-              <div className="grid grid-cols-1 gap-px border border-midnight-rule bg-midnight-rule sm:grid-cols-3">
-                {[
-                  {
-                    figure: "Hrs → min",
-                    label: "Per report or filing, drafted from data you already have",
-                  },
-                  {
-                    figure: "$1,000/mo",
-                    label: "A single late facade filing — one of many penalty clocks",
-                  },
-                  {
-                    figure: "365",
-                    label: "Nights a year every status gets re-checked. People take weekends; it doesn't",
-                  },
-                ].map((stat) => (
-                  <div key={stat.figure} className="bg-midnight p-6">
-                    <div className="display text-[34px] leading-none text-paper md:text-[40px]">
-                      {stat.figure}
-                    </div>
-                    <p className="mt-3 font-mono text-[10px] uppercase leading-[1.7] tracking-[0.16em] text-paper/55">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </h2>
+            <p className="max-w-[46ch] text-[13.5px] leading-[1.55] text-paper/70">
+              The actual obligations on a New York operator&apos;s calendar —
+              what the system does with each, and what that&apos;s worth.
+            </p>
           </div>
 
-          <div className="mt-14 flex flex-col items-start justify-between gap-5 border-t border-midnight-rule pt-8 sm:flex-row sm:items-center">
-            <p className="max-w-[44ch] font-mono text-[11px] uppercase tracking-[0.18em] text-paper/55">
-              Which of these is on your desk? Show us on a call.
+          {/* Docket table */}
+          <div className="mt-8">
+            {/* Column heads */}
+            <div className="hidden grid-cols-12 gap-x-6 border-b border-paper/25 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-paper/60 md:grid">
+              <span className="col-span-3">Obligation</span>
+              <span className="col-span-6">Automated</span>
+              <span className="col-span-3">The return</span>
+            </div>
+
+            <ul className="divide-y divide-midnight-rule border-b border-midnight-rule">
+              {docket.map((d) => (
+                <li
+                  key={d.title}
+                  className="grid grid-cols-12 gap-x-6 gap-y-1.5 py-3.5 md:py-3"
+                >
+                  <div className="col-span-12 flex items-baseline gap-3 md:col-span-3 md:block">
+                    <span className="text-[14px] font-semibold leading-[1.4] text-paper">
+                      {d.title}
+                    </span>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-brand-bright md:mt-0.5 md:block">
+                      {d.tag}
+                    </span>
+                  </div>
+                  <p className="col-span-12 text-[13px] leading-[1.55] text-paper/70 md:col-span-6">
+                    {d.automated}
+                  </p>
+                  <p className="col-span-12 text-[13px] font-medium italic leading-[1.5] text-paper/90 md:col-span-3">
+                    {d.roi}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Arithmetic footnote + CTA */}
+          <div className="mt-8 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
+            <p className="max-w-[72ch] text-[13px] leading-[1.6] text-paper/70">
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-brand-bright">
+                The arithmetic —{" "}
+              </span>
+              a mid-size portfolio carries dozens of these a year at hours of
+              staff time each: a meaningful slice of a salary spent re-typing
+              what the system already knows, before counting a single fine. It
+              pays for itself the first deadline it refuses to miss.
             </p>
             <a
               href="#book"
-              className="group inline-flex items-center gap-3 bg-brand px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand-bright"
+              className="group inline-flex shrink-0 items-center gap-3 bg-brand px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand-bright"
             >
               <span>Book a 30-minute call</span>
               <span className="transition-transform group-hover:translate-x-1">
