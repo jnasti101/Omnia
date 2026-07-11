@@ -5,16 +5,17 @@ import { CalendarWidget } from "@/components/calendar-widget"
 export const metadata: Metadata = {
   title: "We Build What Your Vendors Won't — Omnia Solutions",
   description:
-    "The integration between the CRM and the deal pipeline. The dashboard that pulls from three systems at once. The internal tool no vendor sells. Built for your firm, source code handed over.",
+    "Custom software for property managers and real estate operators — from a single integration to a full platform. If you can describe it, we can build it, with working results shown before you commit a dollar.",
 }
 
 const gapsStrip = [
-  "CRM ↔ pipeline sync",
-  "Three-system dashboards",
-  "Investor reporting",
-  "The workflow no vendor owns",
-  "Load-bearing spreadsheets, retired",
-  "Re-keying, eliminated",
+  "Dashboards",
+  "Integrations",
+  "Investor portals",
+  "Full platforms",
+  "Internal tools",
+  "Automated reporting",
+  "Results before you pay",
   "Source code handed over",
 ]
 
@@ -43,6 +44,11 @@ const gaps = [
     id: "05",
     title: "The spreadsheet that gets to retire",
     body: "The load-bearing workbook with one owner and no version history becomes a small tool: same logic, real permissions, an audit trail.",
+  },
+  {
+    id: "06",
+    title: "The platform you'd build if you could",
+    body: "A complete system — leasing to renewals, acquisitions to asset management — designed around the way your firm actually operates, not the way a vendor assumed it would.",
   },
 ]
 
@@ -102,24 +108,24 @@ const steps = [
   {
     id: "01",
     title: "A thirty-minute call",
-    body: "No slides. Walk us through where the data lives today, and where it gets moved by hand — the exports, the re-typing, the workflow held together over email.",
+    body: "No slides, no pitch. You describe the tool or platform you wish existed — we map where the data lives and what the system should do.",
   },
   {
     id: "02",
-    title: "A prototype inside a week",
-    body: "We come back with a clickable draft of the bridge, dashboard, or tool — built around your actual systems. First sketches inside seven days, or we don't bill.",
+    title: "Working results inside a week",
+    body: "We return with a working prototype of what you described — at our expense, not yours. If it isn't what you imagined, you owe nothing.",
   },
   {
     id: "03",
     title: "Built, then handed over",
-    body: "We build it, wire it to your data, and hand over the keys — source code included. No per-seat platform, no lock-in.",
+    body: "We build it in full, wire it to your data, and hand over the keys — source code included. No per-seat platform, no lock-in.",
   },
 ]
 
 const contents = [
-  { id: "01", label: "The gaps we fill", anchor: "#gaps" },
+  { id: "01", label: "What we can build", anchor: "#gaps" },
   { id: "02", label: "The punch list & ROI", anchor: "#punchlist" },
-  { id: "03", label: "How engagements run", anchor: "#process" },
+  { id: "03", label: "Risk-free, by design", anchor: "#process" },
   { id: "04", label: "Book a call", anchor: "#book" },
 ]
 
@@ -152,7 +158,7 @@ export default function CustomBuildPage() {
           <div className="mb-4 flex items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted lg:mb-6">
             <span className="text-brand">№ 004 / The build desk</span>
             <span className="hidden sm:inline">
-              For firms whose systems don&apos;t talk to each other
+              For property managers &amp; real estate operators
             </span>
           </div>
 
@@ -176,12 +182,12 @@ export default function CustomBuildPage() {
               </div>
             </div>
             <p className="col-span-12 max-w-[58ch] text-[17px] leading-[1.55] text-ink md:col-span-7 md:text-[19px]">
-              Most firms don&apos;t need a new platform. They need someone to
-              fill the gaps — the integration between the CRM and the deal
-              pipeline, the dashboard that pulls from three systems at once,
-              the internal tool that owns the workflow no vendor thought
-              about. <span className="font-semibold text-ink">Omnia</span>{" "}
-              builds exactly that, then hands over the keys.
+              From the integration between your CRM and your deal pipeline to
+              a complete operating platform built around your firm —{" "}
+              <span className="font-semibold text-ink">Omnia</span> designs
+              and builds any tool a property manager or real estate operator
+              can describe. You see real, working results before you commit a
+              dollar. All it takes is a call.
             </p>
 
             <aside className="col-span-12 md:col-span-4 md:col-start-9">
@@ -264,21 +270,23 @@ export default function CustomBuildPage() {
             </span>
             <span className="h-px flex-1 bg-rule lg:max-w-[120px]" />
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-              The gaps we fill
+              What we can build
             </span>
           </div>
 
           <div className="grid grid-cols-12 gap-6 lg:gap-8">
             <div className="col-span-12 lg:col-span-5">
               <h2 className="display text-[44px] leading-[0.95] text-ink md:text-[64px] lg:text-[80px]">
-                Between your
+                If you can describe it,
                 <br />
-                <span className="display-thin text-brand">systems.</span>
+                <span className="display-thin text-brand">
+                  we can build it.
+                </span>
               </h2>
               <p className="mt-6 max-w-[44ch] text-[16px] leading-[1.6] text-ink-muted md:text-[17px]">
-                Your vendors each own their box. The work that falls between
-                the boxes — the exports, the re-typing, the workflow tracked
-                over email — that&apos;s what we build for.
+                From a single integration to a complete operating platform —
+                purpose-built around how your firm actually works. The list
+                here is where firms often begin. It is not where we stop.
               </p>
             </div>
 
@@ -332,7 +340,8 @@ export default function CustomBuildPage() {
             </h2>
             <p className="max-w-[46ch] text-[13.5px] leading-[1.55] text-paper/70">
               The builds we get asked for most — what each one replaces, and
-              what that&apos;s worth.
+              what that&apos;s worth. If yours isn&apos;t listed, that&apos;s
+              precisely what the call is for.
             </p>
           </div>
 
@@ -408,7 +417,7 @@ export default function CustomBuildPage() {
             </span>
             <span className="h-px flex-1 bg-rule lg:max-w-[120px]" />
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-              How engagements run
+              Risk-free, by design
             </span>
           </div>
 
@@ -430,7 +439,44 @@ export default function CustomBuildPage() {
             ))}
           </div>
 
-          <ul className="mt-12 flex flex-col gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted sm:flex-row sm:gap-10">
+          {/* The standing offer */}
+          <div className="relative mt-14 border border-ink/30 bg-paper-dim/40 p-6 sm:p-10">
+            <span className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-brand" />
+            <span className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-brand" />
+            <span className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-brand" />
+            <span className="absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-brand" />
+
+            <div className="grid grid-cols-12 items-center gap-6 lg:gap-8">
+              <div className="col-span-12 lg:col-span-8">
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand">
+                  The standing offer
+                </span>
+                <p className="display mt-3 text-[26px] leading-[1.15] text-ink md:text-[34px]">
+                  Real results before you spend{" "}
+                  <span className="display-thin text-brand">a dollar.</span>
+                </p>
+                <p className="mt-4 max-w-[64ch] text-[15px] leading-[1.6] text-ink-muted">
+                  Every engagement begins with a working prototype, delivered
+                  inside a week — at our risk, not yours. If what you see
+                  isn&apos;t worth building, you owe nothing and keep the
+                  thinking. The only commitment is thirty minutes.
+                </p>
+              </div>
+              <div className="col-span-12 lg:col-span-3 lg:col-start-10">
+                <a
+                  href="#book"
+                  className="group inline-flex w-full items-center justify-center gap-3 bg-ink px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-brand lg:w-auto"
+                >
+                  <span>Set up the call</span>
+                  <span className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <ul className="mt-10 flex flex-col gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted sm:flex-row sm:gap-10">
             <li className="flex items-baseline gap-3">
               <span className="text-brand">●</span>
               <span>No agency middlemen — you talk to the people who build</span>
@@ -441,7 +487,7 @@ export default function CustomBuildPage() {
             </li>
             <li className="flex items-baseline gap-3">
               <span className="text-brand">●</span>
-              <span>First sketches inside seven days, or we don&apos;t bill</span>
+              <span>Working results inside seven days, or we don&apos;t bill</span>
             </li>
           </ul>
         </div>
@@ -465,16 +511,18 @@ export default function CustomBuildPage() {
           <div className="grid grid-cols-12 gap-6 lg:gap-8">
             <div className="col-span-12 lg:col-span-7">
               <h2 className="display text-[44px] leading-[0.95] text-ink md:text-[64px] lg:text-[84px]">
-                Show us
+                Bring us what
                 <br />
-                the <span className="display-thin text-brand">gap.</span>
+                you&apos;ve{" "}
+                <span className="display-thin text-brand">imagined.</span>
               </h2>
             </div>
             <div className="col-span-12 lg:col-span-4 lg:col-start-9">
               <p className="mt-2 max-w-[44ch] text-[15px] leading-[1.6] text-ink-muted md:text-[16px] lg:mt-6">
-                Pick a time below. Thirty minutes, no slides — walk us through
-                the workflow you&apos;re bridging by hand, and we&apos;ll show
-                you what we&apos;d build.
+                Pick a time below. Thirty minutes, no slides — describe the
+                tool or platform you wish existed, and we&apos;ll show you
+                exactly how we&apos;d build it. Working results follow within
+                the week, at no cost to you.
               </p>
             </div>
           </div>
